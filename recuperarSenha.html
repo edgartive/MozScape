@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Senha</title>
+    <link rel="stylesheet" href="recuperarSenha.css">
+</head>
+<body>
+    <div class="recovery-container">
+        <h2>Recuperação de Senha</h2>
+        <form id="recoveryForm">
+            <div class="form-group">
+                <label for="email">Digite seu e-mail cadastrado</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+            </div>
+            <a href="redefinirSenha.html"><button href="redefinirSenha.html" type="button" id="sendCodeButton">Enviar Código</button></a>
+
+            <div class="form-group code-section" style="display: none;">
+                <label for="verificationCode">Código de Verificação</label>
+                <input type="text" id="verificationCode" name="verificationCode" placeholder="Digite o código recebido" required>
+            </div>
+
+            <div class="form-group new-password-section" style="display: none;">
+                <label for="newPassword">Nova Senha</label>
+                <input type="password" id="newPassword" name="newPassword" placeholder="Digite sua nova senha" required>
+            </div>
+
+            <button  type="button" id="resetPasswordButton" style="display: none;">Redefinir Senha</button>
+        </form>
+    </div>
+
+    <script src="recovery.js"></script>
+</body>
+</html>

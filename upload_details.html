@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Upload</title>
+    <link rel="stylesheet" href="admin_2.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Detalhes do Upload</h1>
+        </header>
+
+        <!-- Detalhes do upload -->
+        <div id="upload-details">
+            <div id="details-container">
+                <!-- Detalhes do upload irão aparecer aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script src="uploads.js"></script>
+</body>
+</html>

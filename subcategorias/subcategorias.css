@@ -1,0 +1,148 @@
+/* Configurações gerais */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0a0f25;
+    color: #ffffff;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: rgb(0, 155, 225);
+}
+
+/* Grid de Categorias */
+.categorias-destaque {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    justify-items: center;
+}
+
+.categoria {
+    width: 250px;
+    text-align: center;
+    background-color: #1b2333;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.categoria img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.categoria p {
+    color: rgb(0, 155, 225);
+    font-size: 1.1rem;
+}
+
+.categoria:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.categoria:hover img {
+    transform: scale(1.1);
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+}
+/* Ajustes para telas menores (tablets) */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 itens por linha */
+        gap: 1.5rem; /* Reduz o espaçamento */
+    }
+
+    .barra-pesquisa input {
+        width: 80%; /* Ajusta largura do campo de busca */
+    }
+
+    .perfil-usuario {
+        top: 10px;
+        right: 5px;
+        padding: 5px;
+    }
+
+    #username {
+        font-size: 12px;
+    }
+}
+
+/* Ajustes para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr; /* 1 item por linha */
+    }
+
+    header {
+        text-align: center; /* Centraliza o cabeçalho */
+        padding: 1rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .barra-pesquisa input {
+        width: 100%; /* Usa toda a largura disponível */
+    }
+
+    .perfil-usuario {
+        flex-direction: column; /* Nome abaixo da imagem */
+        align-items: center;
+        top: 5px;
+        right: 5px;
+    }
+
+    .foto-perfil {
+        width: 30px;
+        height: 30px;
+    }
+
+    #username {
+        font-size: 10px;
+        margin-top: 5px;
+    }
+}

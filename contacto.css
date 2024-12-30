@@ -1,0 +1,328 @@
+/* Configurações gerais */
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('fontes/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0a0f25;
+    color: #ffffff;
+}
+
+
+/* Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    /* Fixa o header no topo sem sair do fluxo */
+    top: 0;
+    /* Alinha ao topo */
+    z-index: 1000;
+    /* Garante que fique acima de outros elementos */
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: rgb(0, 155, 225);
+}
+
+/* Main */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem;
+}
+
+/* Informações de contato */
+.info-contacto {
+    text-align: center;
+    background-color: #1b2333;
+    padding: 1.5rem;
+    border-radius: 10px;
+    max-width: 800px;
+    width: 90%;
+}
+
+.info-contacto h2 {
+    color: rgb(0, 155, 225);
+    margin-bottom: 1rem;
+}
+
+/* Mapa */
+.mapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    width: 90%;
+    background-color: #1b2333;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.mapa iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Formulário */
+.formulario {
+    max-width: 800px;
+    width: 90%;
+    background-color: #1b2333;
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.formulario h2 {
+    text-align: center;
+    color: rgb(0, 155, 225);
+    margin-bottom: 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+form label {
+    font-weight: bold;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    font-size: 1rem;
+}
+
+form button {
+    padding: 0.8rem;
+    background-color: rgb(0, 155, 225);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+form button:hover {
+    background-color: #007bb5;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+}
+
+#destacar {
+    border-bottom: 4px solid rgb(0, 155, 225);
+    /* Define a borda como underline */
+    padding-bottom: 5px;
+    /* Espaçamento entre o texto e a linha */
+}
+
+.perfil-usuario {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Fundo levemente transparente */
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.foto-perfil {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 10px;
+    border: 2px solid #ffffff;
+}
+
+#username {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustes para telas menores (tablets) */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 itens por linha */
+        gap: 1.5rem;
+        /* Reduz o espaçamento */
+    }
+
+    .barra-pesquisa input {
+        width: 80%;
+        /* Ajusta largura do campo de busca */
+    }
+
+    .perfil-usuario {
+        top: 10px;
+        right: 5px;
+        padding: 5px;
+    }
+
+    #username {
+        font-size: 12px;
+    }
+}
+
+/* Ajustes para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+        /* 1 item por linha */
+    }
+
+    header {
+        text-align: center;
+        /* Centraliza o cabeçalho */
+        padding: 1rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .barra-pesquisa input {
+        width: 100%;
+        /* Usa toda a largura disponível */
+    }
+
+    .perfil-usuario {
+        flex-direction: column;
+        /* Nome abaixo da imagem */
+        align-items: center;
+        top: 5px;
+        right: 5px;
+    }
+
+    .foto-perfil {
+        width: 30px;
+        height: 30px;
+    }
+
+    #username {
+        font-size: 10px;
+        margin-top: 5px;
+    }
+}
+
+/* Ajuste do ícone de perfil para telas menores */
+@media (max-width: 768px) {
+    .perfil-usuario {
+        position: static;
+        /* Remove a posição absoluta */
+        margin: 10px auto;
+        /* Centraliza o ícone */
+        display: flex;
+        justify-content: center;
+        /* Centraliza horizontalmente */
+    }
+
+    header {
+        text-align: center;
+        /* Centraliza o conteúdo do cabeçalho */
+        padding: 1rem 0;
+    }
+
+    h2 {
+        margin-top: 1rem;
+        /* Espaçamento extra para evitar sobreposição */
+    }
+}
+
+/* Ajuste para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    .perfil-usuario {
+        flex-direction: column;
+        /* Organiza o ícone e o texto em coluna */
+        align-items: center;
+    }
+
+    #username {
+        margin-top: 5px;
+        /* Adiciona espaço entre o ícone e o texto */
+        font-size: 12px;
+        /* Reduz o tamanho da fonte */
+    }
+
+    h2 {
+        font-size: 18px;
+        /* Reduz o tamanho da fonte para encaixar melhor */
+    }
+}header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Fixa o header no topo */
+    top: 0; /* Alinha ao topo */
+    z-index: 1000; /* Garante visibilidade acima de outros elementos */
+}
+
+/* Ajuste para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem 0; /* Reduz o padding no topo e embaixo */
+        font-size: 0.9rem; /* Reduz o tamanho do texto */
+    }
+
+    nav ul {
+        flex-direction: row; /* Mantém os itens horizontais */
+        gap: 1rem; /* Reduz o espaçamento entre os itens */
+    }
+
+    nav ul li a {
+        font-size: 0.9rem; /* Reduz o tamanho das fontes dos links */
+    }
+}
