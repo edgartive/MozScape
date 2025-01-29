@@ -1,0 +1,111 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+#uploads-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.upload-thumbnail {
+    width: 160px;
+    height: 160px;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.upload-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.view-button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+}
+
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+#details-container {
+    display: none;
+}
+
+.upload-detail-thumbnail {
+    width: 300px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+#back-button {
+    margin-top: 20px;
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#back-button:hover {
+    background-color: #d32f2f;
+}
+/* Media Queries */
+@media (max-width: 768px) {
+    .upload-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .upload-thumbnail {
+        margin-bottom: 15px;
+    }
+
+    #uploads-container {
+        padding: 10px;
+    }
+
+    .upload-detail-thumbnail {
+        width: 100%;
+    }
+
+    #back-button, #download-link {
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-item {
+        padding: 10px;
+    }
+
+    .upload-thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+
+    .view-button {
+        width: 100%;
+    }
+}
