@@ -5,7 +5,6 @@ class Upload
     private $id_upload;
     private $usuario_id;
     private $tipo;
-    private $categoria_id;
     private $data_upload;
     private $status;
     private $descricao;
@@ -42,15 +41,6 @@ class Upload
         $this->tipo = $tipo;
     }
 
-    public function getCategoriaId()
-    {
-        return $this->categoria_id;
-    }
-
-    public function setCategoriaId($categoria_id)
-    {
-        $this->categoria_id = $categoria_id;
-    }
 
     public function getDataUpload()
     {
