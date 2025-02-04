@@ -8,13 +8,13 @@
     <title>MozScape</title>
     <link rel="icon" href="images/sea.png" type="image/png">
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 
 </head>
 
 <body>
     <header>
-        <h2 style="text-align: center;">    </h2>
+        <h2 style="text-align: center;"> </h2>
         <a href="index.html">
             <div class="back-home" style="position: absolute; top: 10px; left: 10px;
           
@@ -33,10 +33,10 @@
         </a>
         <nav>
             <ul>
-                <li><a href="index.html" id="destacar">Início</a></li>
-                <li><a href="categorias.html">Categorias</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="contacto.html">Contactos</a></li>
+                <li><a href="index.php" id="destacar">Início</a></li>
+                <li><a href="categorias.php">Categorias</a></li>
+                <li><a href="sobre.php">Sobre</a></li>
+                <li><a href="contacto.php">Contactos</a></li>
             </ul>
         </nav>
     </header>
