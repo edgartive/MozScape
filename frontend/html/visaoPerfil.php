@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="css/perfil.css">
     <title>User Profile</title>
 </head>
+
 <body>
     <div class="profile-container">
         <div class="profile-header">
@@ -26,4 +28,5 @@
         <button class="edit-button">Edit Profile</button>
     </div>
 </body>
+
 </html>
