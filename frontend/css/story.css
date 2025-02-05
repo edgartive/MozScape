@@ -119,6 +119,42 @@ nav ul li a:hover {
     /* Aponta como interativo */
 }
 
+
+#opcoes {
+    padding: 0.4rem;
+    width: 19px;
+    /* Mesma altura do campo de texto */
+    border-radius: 5px;
+    /* Borda arredondada */
+    border: none;
+    /* Remove borda padrão */
+    font-size: 1rem;
+    /* Mesma fonte do input */
+    background-color: #1b2333;
+    /* Cor de fundo */
+    color: white;
+
+    /* Ajusta a largura automaticamente */
+
+
+}
+
+/* Seta personalizada */
+.custom-select {
+    position: relative;
+    display: inline-block;
+}
+
+
+
+/* Estilo das opções */
+option {
+    white-space: nowrap;
+    /* Impede que o texto quebre em várias linhas */
+    padding: 5px 10px;
+    /* Espaçamento interno */
+}
+
 /* Estilo para o placeholder da ComboBox */
 .barra-pesquisa select option[disabled] {
     color: #888;

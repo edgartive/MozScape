@@ -31,7 +31,28 @@
             </a>
             <div class="perfil-usuario">
                 <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
+                <select id="opcoes" name="categoria">
+                    <option value=""></option> <!-- Opção padrão -->
+                    <option value="visaoPerfil.php">Meu perfil</option>
+                    <option value="favoritosECollections.php">Favoritos</option>
+                    <option value="definicoes.php">Definições</option>
+                    <option value="statusUpload.php">Ver pedidos</option>
+                    <option value="ajuda_faq.php">Ajuda</option>
+                    <option value="contacto.php">Contactos</option>
+                    <option value="manual.php">Manual de instrunçoes </option>
+                    <option value="logout.php">Sair</option>
+                </select>
 
+                <script>
+                    // Função para redirecionar com base na opção selecionada
+                    document.getElementById('opcoes').addEventListener('change', function() {
+                        const selectedValue = this.value; // Pega o valor da opção selecionada
+
+                        if (selectedValue !== "") { // Ignora a opção padrão
+                            window.location.href = selectedValue; // Redireciona para a página
+                        }
+                    });
+                </script>
             </div>
             <nav>
                 <ul>
