@@ -26,11 +26,11 @@
             padding: 5px 10px;
             border-radius: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
-                    <img src="images/logo-black.png" alt="">
+                    <img src="../images/logo-black.png" alt="">
                 </div>
             </a>
             <div class="perfil-usuario">
-                <div class="foto-perfil" style="background-image: url('images/perfil.png');"></div>
+                <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
 
             </div>
             <nav>
