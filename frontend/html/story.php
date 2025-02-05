@@ -1,7 +1,3 @@
-<?php
-$placeholder = 'Water 7';
-
-?>
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -36,8 +32,8 @@ $placeholder = 'Water 7';
         <nav>
             <ul>
                 <li><a href="index.php">Início</a></li>
-                <li><a href="categorias.html" id="destacar">Explorar</a></li>
-                <li><a href="story.php">Story</a></li>
+                <li><a href="categorias.php">Explorar</a></li>
+                <li><a href="story.html" id="destacar">Story</a></li>
                 <li><a href="contacto.html">Hall da fama</a></li>
             </ul>
         </nav>
@@ -51,7 +47,7 @@ $placeholder = 'Water 7';
                 <option value="categoria3">Fotógrafo</option>
             </select>
             <!-- Campo de pesquisa -->
-            <input type="text" id="pesquisa" name="pesquisa" placeholder="<?= $placeholder ?>"
+            <input type="text" id="pesquisa" name="pesquisa" placeholder="Buscar por categorias..."
                 onkeyup="pesquisarCategoria()">
             <!-- Ícone de pesquisa -->
             <button type="submit">
@@ -60,17 +56,16 @@ $placeholder = 'Water 7';
         </form>
     </section>
 
-    <!-- Grid de Categorias -->
+    <!-- Grid de Historia -->
     <section class="categorias-destaque">
-        <h2 id="centerText">Escolha uma categoria para explorar</h2>
-        <div id="hastags"> <a href="">#praia</a> <a href="">#sunset</a> <a href="">#sunrise</a> <a href="">#agua</a> <a
-                href="">#noite</a> <a href="">#xiaomi </a> <a href=""> #flores</a> <a href="">#predio</a> <a
-                href="">#samsung</a><a href="">#maputo</a> <a href="">#animal</a></div>
+
         <p> </p>
         <div class="grid">
             <div class="categoria" data-categoria="natureza">
                 <a href="subcategorias/natureza.html"><img src="../images/natureza.jpg" alt="Natureza"></a>
-                <p>Natureza</p>
+                <p>Spider-Man</p>
+                <p>Maputo</p>
+
             </div>
             <div class="categoria" data-categoria="cidades">
                 <img src="../images/cidades.jpg" alt="Cidades">

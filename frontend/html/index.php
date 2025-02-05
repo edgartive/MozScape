@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MozScape</title>
-    <link rel="icon" href="images/sea.png" type="image/png">
+    <link rel="icon" href="../images/sea.png" type="image/png">
 
     <link rel="stylesheet" href="../css/styles.css">
 
@@ -23,20 +23,20 @@
             padding: 5px 10px;
             border-radius: 20px;
             ">
-                <img src="images/logo-black.png" alt="">
+                <img src="../images/logo-black.png" alt="">
             </div>
         </a>
-        <a href="login.html" style="text-decoration: none;">
+        <a href="login.php" style="text-decoration: none;">
             <div class="perfil-usuario">
-                <div class="foto-perfil" style="background-image: url('images/perfil.png');"></div>
+                <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
             </div>
         </a>
         <nav>
             <ul>
                 <li><a href="index.php" id="destacar">Início</a></li>
-                <li><a href="categorias.php">Categorias</a></li>
-                <li><a href="sobre.php">Sobre</a></li>
-                <li><a href="contacto.php">Contactos</a></li>
+                <li><a href="categorias.php">Explorar</a></li>
+                <li><a href="story.php">Story</a></li>
+                <li><a href="contacto.php">Hall da fama</a></li>
             </ul>
         </nav>
     </header>
@@ -45,23 +45,23 @@
         <section class="hero">
             <h2 class="descubra">Descubra a beleza do nosso país através das lentes!</h2>
             <h3>Descarregue as fotografias de paisagem deslumbrantes em alta resolução</h3>
-            <a href="categorias.html" class="btn">Explorar Fotografias</a>
+            <a href="categorias.html" class="btn">Explorar Fotog afias</a>
         </section>
 
         <section class="categorias-destaque">
             <h2 id="centerText">Categorias Populares</h3>
                 <div class="grid">
                     <div class="categoria">
-                        <a href="subcategorias/natureza.html"> <img src="/images/natureza.jpg" alt="Natureza">
+                        <a href="subcategorias/natureza.php"> <img src="../images/natureza.jpg" alt="Natureza">
                         </a>
                         <p id="whiteText">Natureza</p>
                     </div>
                     <div class="categoria">
-                        <a href="subcategorias/cidades.html"> <img src="images/cidades.jpg" alt="Cidades"></a>
+                        <a href="subcategorias/cidades.html"> <img src="../images/cidades.jpg" alt="Cidades"></a>
                         <p id="whiteText">Cidades</p>
                     </div>
                     <div class="categoria">
-                        <a href="subcategorias/arquitetura.html"><img src="images/montanhas.jpg" alt="Montanhas">
+                        <a href="subcategorias/arquitetura.html"><img src="../images/montanhas.jpg" alt="Montanhas">
                         </a>
                         <p id="whiteText">Céu e nuvens</p>
                     </div>
@@ -70,7 +70,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Pain Designer</p>
+        <p>&copy; 2024 MozScape</p>
     </footer>
 </body>
 
