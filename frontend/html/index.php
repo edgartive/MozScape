@@ -36,7 +36,7 @@
                 <li><a href="index.php" id="destacar">Início</a></li>
                 <li><a href="categorias.php">Explorar</a></li>
                 <li><a href="story.php">Story</a></li>
-                <li><a href="contacto.php">Hall da fama</a></li>
+                <li><a href="hallFama.php">Hall da fama</a></li>
             </ul>
         </nav>
     </header>

@@ -1,0 +1,185 @@
+/* Paleta de cores */
+:root {
+    --primary-color: rgb(0, 155, 225);
+    /* Verde */
+    --secondary-color: #333;
+    /* Preto suave */
+    --background-color: #0a0f25;
+    /* Azul escuro */
+    --text-color: #ffffff;
+    /* Cor do texto */
+    --hover-color: rgb(0, 155, 225);
+    /* Verde claro */
+}
+
+/* Importação da Fonte */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fontes/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Estilo Geral */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Header */
+header {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    text-align: center;
+}
+
+/* Navbar */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--hover-color);
+}
+
+/* Container Principal */
+.container {
+    width: 90%;
+    max-width: 800px;
+    padding: 1.5rem;
+    background-color: rgba(51, 51, 51, 0.8);
+    /* Fundo semi-transparente */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin: 2rem auto;
+    /* Centraliza o container */
+}
+
+.container h1 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+/* Estilo dos Cards */
+.card {
+    background-color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.card p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin: 0.5rem 0;
+}
+
+.card img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 8px;
+    border: 2px solid var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+/* Efeito ao passar o mouse */
+.btn:hover {
+    box-shadow: 0 0 15px var(--primary-color);
+    /* Glow verde */
+}
+
+/* Footer */
+footer {
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 0.8rem;
+    }
+
+    .card h2 {
+        font-size: 1.2rem;
+    }
+
+    .card p {
+        font-size: 0.9rem;
+    }
+
+    .card img {
+        max-width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+#destacar {
+    border-bottom: 4px solid rgb(0, 155, 225);
+    /* Define a borda como underline */
+    padding-bottom: 5px;
+    /* Espaçamento entre o texto e a linha */
+}
+
+/* Ajustes para telas menores (smartphones) */
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem 0;
+    }
+
+    nav ul li a {
+        font-size: 0.9rem;
+    }
+
+    .container h1 {
+        font-size: 1.5rem;
+    }
+}

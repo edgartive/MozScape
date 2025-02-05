@@ -36,9 +36,9 @@ $placeholder = 'Water 7';
         <nav>
             <ul>
                 <li><a href="index.php">Início</a></li>
-                <li><a href="categorias.html" id="destacar">Explorar</a></li>
+                <li><a href="categorias.php" id="destacar">Explorar</a></li>
                 <li><a href="story.php">Story</a></li>
-                <li><a href="contacto.html">Hall da fama</a></li>
+                <li><a href="hallFama.php">Hall da fama</a></li>
             </ul>
         </nav>
     </header>
@@ -51,13 +51,33 @@ $placeholder = 'Water 7';
                 <option value="categoria3">Fotógrafo</option>
             </select>
             <!-- Campo de pesquisa -->
-            <input type="text" id="pesquisa" name="pesquisa" placeholder="<?= $placeholder ?>"
+            <input type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar por categorias..."
                 onkeyup="pesquisarCategoria()">
             <!-- Ícone de pesquisa -->
             <button type="submit">
                 <i class="fas fa-search"></i> <!-- Ícone de pesquisa -->
             </button>
+            <a href="upload.php" class="upload-btn" style="color: white;">
+                <i class="fas fa-upload"></i> <!-- Ícone de upload -->
+            </a>
+
+            <!-- Botão de Informação com Ícone -->
+            <button type="button" id="infoButton" onclick="abrirJOptionPane()">
+                <i class="fas fa-info-circle"></i>
+            </button>
+
         </form>
+        <!-- Modal de Informação -->
+        <div id="infoModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharInfo()">&times;</span>
+                <p>Esta tela permite explorar diferentes categorias de fotografias enviadas pelos usuários. Você pode buscar categorias específicas usando a barra de pesquisa ou adicionar suas próprias imagens através do botão de upload.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Painel de Informação -->
+
     </section>
 
     <!-- Grid de Categorias -->
@@ -107,24 +127,8 @@ $placeholder = 'Water 7';
     <footer>
         <p>&copy; 2024 Pain Designer</p>
     </footer>
+    <script src="../js/script.js"></script>
 
-    <script>
-        function pesquisarCategoria() {
-            // Pega o valor do campo de pesquisa e converte para minúsculas
-            var input = document.getElementById('pesquisa').value.toLowerCase();
-            var categorias = document.querySelectorAll('.categoria');
-
-            categorias.forEach(function(categoria) {
-                var categoriaNome = categoria.getAttribute('data-categoria').toLowerCase();
-                // Verifica se o nome da categoria contém o texto da pesquisa
-                if (categoriaNome.includes(input)) {
-                    categoria.style.display = 'block'; // Mostra a categoria
-                } else {
-                    categoria.style.display = 'none'; // Oculta a categoria
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

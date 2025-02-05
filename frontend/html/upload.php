@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload de Foto</title>
-    <link rel="stylesheet" href="upload.css">
+    <link rel="stylesheet" href="../css/upload.css">
 </head>
+
 <body>
     <header>
         <h1 id="destacar">Envio de Foto</h1>
@@ -26,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label for="descricao">Descrição:</label>
-                <textarea  class="inputSize" id="descricao" name="descricao" rows="5" placeholder="Descreva a foto..." required></textarea>
+                <textarea class="inputSize" id="descricao" name="descricao" rows="5" placeholder="Descreva a foto..." required></textarea>
             </div>
             <div class="form-group">
                 <label for="imagem">Escolha a Foto:</label>
@@ -39,4 +41,5 @@
         <p>&copy; 2024 Pain Designer</p>
     </footer>
 </body>
+
 </html>
