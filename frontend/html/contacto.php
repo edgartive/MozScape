@@ -11,7 +11,7 @@
 <body>
     <header>
         <h2 style="text-align: center;"> </h2>
-        <a href="index.html">
+        <a href="index.php">
             <div id="back-home" style="position: absolute; top: 10px; left: 10px;
             display: flex;
             align-items: center;
@@ -19,21 +19,10 @@
             padding: 5px 10px;
             border-radius: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
-                <img src="images/logo-black.png" alt="">
+                <img src="../images/logo-black.png" alt="">
             </div>
         </a>
-        <div class="perfil-usuario">
-            <div class="foto-perfil" style="background-image: url('images/perfil.png');"></div>
-            <label id="username">Pain 29</label>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="categorias.html">Categorias</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="contacto.html" id="destacar">Contactos</a></li>
-            </ul>
-        </nav>
+
     </header>
     <main>
         <section class="info-contacto">

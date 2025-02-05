@@ -39,6 +39,7 @@ $fotoMaisBaixada = array_reduce($fotos, function ($carry, $item) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hall da Fama</title>
     <link rel="stylesheet" href="../css/hallFama.css">
+    <link rel="stylesheet" href="../css/categorias.css">
 </head>
 
 <body>
@@ -46,21 +47,41 @@ $fotoMaisBaixada = array_reduce($fotos, function ($carry, $item) {
     <header>
         <h2 style="text-align: center;"> </h2>
         <a href="index.html">
-            <div class="back-home" style="position: absolute; top: 10px; left: 10px;
-          
+            <div id="back-home" style="position: absolute; top: 10px; left: 10px;
+            display: flex;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0);
+            background-color: rgba(255, 255, 255, 0.1);
             padding: 5px 10px;
             border-radius: 20px;
-            ">
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
                 <img src="../images/logo-black.png" alt="">
             </div>
         </a>
-        <a href="login.php" style="text-decoration: none;">
-            <div class="perfil-usuario">
-                <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
-            </div>
-        </a>
+        <div class="perfil-usuario">
+            <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
+            <select id="opcoes" name="categoria">
+                <option value=""></option> <!-- Opção padrão -->
+                <option value="visaoPerfil.php">Meu perfil</option>
+                <option value="favoritosECollections.php">Favoritos</option>
+                <option value="definicoes.php">Definições</option>
+                <option value="statusUpload.php">Ver pedidos</option>
+                <option value="ajuda_faq.php">Ajuda</option>
+                <option value="contacto.php">Contactos</option>
+                <option value="manual.php">Manual de instrunçoes </option>
+                <option value="logout.php">Sair</option>
+            </select>
+
+            <script>
+                // Função para redirecionar com base na opção selecionada
+                document.getElementById('opcoes').addEventListener('change', function() {
+                    const selectedValue = this.value; // Pega o valor da opção selecionada
+
+                    if (selectedValue !== "") { // Ignora a opção padrão
+                        window.location.href = selectedValue; // Redireciona para a página
+                    }
+                });
+            </script>
+        </div>
         <nav>
             <ul>
                 <li><a href="index.php">Início</a></li>
@@ -70,7 +91,6 @@ $fotoMaisBaixada = array_reduce($fotos, function ($carry, $item) {
             </ul>
         </nav>
     </header>
-
     <div class="container">
         <h1>Hall da Fama</h1>
 

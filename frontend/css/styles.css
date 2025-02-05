@@ -59,6 +59,41 @@ body {
     color: #ffffff;
 }
 
+select {
+    padding: 0.4rem;
+    /* Largura automática para acomodar o texto */
+    width: 19px;
+    /* Largura mínima para evitar que fique muito estreito */
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    background-color: #1b2333 !important;
+    color: white;
+
+
+
+    /* Remove o contorno ao focar */
+}
+
+/* Seta personalizada */
+.custom-select {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-select::after {
+    content: "▼";
+    /* Seta personalizada */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    /* Impede que a seta bloqueie o clique */
+    font-size: 12px;
+    color: white;
+}
+
 h2,
 h3 {
     font-family: 'Montserrat', sans-serif;
@@ -227,6 +262,8 @@ footer {
 a {
     text-decoration: none;
 }
+
+
 
 
 .perfil-usuario {
