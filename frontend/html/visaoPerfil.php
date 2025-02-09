@@ -5,28 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/perfil.css">
-    <title>User Profile</title>
+    <title>Perfil do Usuário</title>
 </head>
 
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <img src="images/perfil.png" alt="Profile Picture" class="profile-picture">
-            <h2>Pain 29</h2>
-            <p class="profile-email">edsonpain29@gmail.com</p>
+            <img src="../images/perfil.png" alt="Foto de Perfil" class="profile-picture">
+            <h1 class="username">Username</h1>
+            <button class="edit-button" onclick="openEditProfile()">Editar Perfil</button>
         </div>
         <div class="profile-details">
-            <div class="detail-item">
-                <span class="detail-label">Nome completo:</span>
-                <span class="detail-value">Edson Pain </span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Joined:</span>
-                <span class="detail-value">March 12, 2021</span>
-            </div>
+            <p><strong>Email:</strong> user@example.com</p>
+            <p><strong>Frase Favorita:</strong> "O segredo do sucesso é a constância no propósito."</p>
+            <p><strong>Localização:</strong> São Paulo, Brasil</p>
+            <p><strong>Data de Cadastro:</strong> 01/01/2022</p>
         </div>
-        <button class="edit-button">Edit Profile</button>
     </div>
+    <script src="../js/profile.js"></script>
 </body>
 
 </html>
