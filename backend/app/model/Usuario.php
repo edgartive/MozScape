@@ -1,6 +1,5 @@
 <?php
 
-namespace App\Model;
 
 class Usuario
 {
@@ -60,9 +59,9 @@ class Usuario
 
     public function setSenha($senha)
     {
-        $this->senha = $senha;
+        // Encripta a senha antes de armazená-la
+        $this->senha = password_hash($senha, PASSWORD_BCRYPT);
     }
-
     public function getUsername()
     {
         return $this->username;
@@ -73,12 +72,12 @@ class Usuario
         $this->username = $username;
     }
 
-    public function getFotoDePerfil()
+    public function getFotoDePerfilUrl()
     {
         return $this->foto_de_perfil_url;
     }
 
-    public function setFotoDePerfil($foto_de_perfil_url)
+    public function setFotoDePerfilUrl($foto_de_perfil_url)
     {
         $this->foto_de_perfil_url = $foto_de_perfil_url;
     }

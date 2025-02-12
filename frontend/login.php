@@ -16,7 +16,7 @@
     <main>
         <div class="login-container">
             <h2>Login</h2>
-            <form id="login-form">
+            <form id="login-form" method="POST" action="processar_login.php">
                 <div class="form-group">
                     <label for="username">Usuário</label>
                     <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="form-group">
-                    <a href="index.html"> <button type="submit">Entrar</button></a>
+                    <button type="submit">Entrar</button>
                 </div>
             </form>
 

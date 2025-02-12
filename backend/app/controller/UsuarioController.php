@@ -1,58 +1,72 @@
 <?php
+
+require_once __DIR__ . '/../model/dao/UsuarioDAO.php';
+require_once __DIR__ . '/../model/Usuario.php';
+
 class UsuarioController
 {
-    private $usuarioModel;
+    private $usuarioDAO;
 
-    public function __construct($usuarioModel)
+    public function __construct($db)
     {
-        $this->usuarioModel = $usuarioModel;
+        $this->usuarioDAO = new UsuarioDAO($db);
     }
 
-    public function cadastrar()
+    // Cria um novo usuário
+    public function criarUsuario($nome_completo, $email, $senha, $username, $foto_de_perfil_url, $frase_favorita, $uploader, $biografia, $links)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Verifica se a pasta de uploads existe
-            $pastaFotos = 'uploads/fotos_perfil';
-            if (!is_dir($pastaFotos)) {
-                mkdir($pastaFotos, 0755, true);
-            }
+        $usuario = new Usuario();
+        $usuario->setNomeCompleto($nome_completo);
+        $usuario->setEmail($email);
+        $usuario->setSenha($senha);
+        $usuario->setUsername($username);
+        $usuario->setFotoDePerfilUrl($foto_de_perfil_url);
+        $usuario->setFraseFavorita($frase_favorita);
+        $usuario->setUploader($uploader);
+        $usuario->setBiografia($biografia);
+        $usuario->setLinks($links);
 
-            // Processa o upload da foto de perfil
-            $fotoPerfilUrl = null;
-            if (isset($_FILES['foto_de_perfil']) && $_FILES['foto_de_perfil']['error'] === UPLOAD_ERR_OK) {
-                $nomeArquivo = uniqid() . '_' . basename($_FILES['foto_de_perfil']['name']); // Nome único para evitar conflitos
-                $caminhoArquivo = $pastaFotos . '/' . $nomeArquivo;
-
-                // Move o arquivo para a pasta de uploads
-                if (move_uploaded_file($_FILES['foto_de_perfil']['tmp_name'], $caminhoArquivo)) {
-                    $fotoPerfilUrl = $caminhoArquivo; // Salva o caminho relativo
-                } else {
-                    die("Erro ao fazer upload da foto de perfil.");
-                }
-            }
-
-            // Prepara os dados do usuário
-            $dadosUsuario = [
-                'nome_completo' => $_POST['nome_completo'],
-                'email' => $_POST['email'],
-                'senha' => $_POST['senha'],
-                'username' => $_POST['username'],
-                'foto_de_perfil_url' => $fotoPerfilUrl,
-                'frase_favorita' => $_POST['frase_favorita'],
-                'uploader' => isset($_POST['uploader']) ? 1 : 0,
-                'biografia' => $_POST['biografia'],
-                'links' => $_POST['links']
-            ];
-
-            // Cadastra o usuário
-            $this->usuarioModel->cadastrarUsuario($dadosUsuario);
-            header('Location: listar.php'); // Redireciona para a listagem
-        }
+        return $this->usuarioDAO->criarUsuario($usuario);
     }
 
-    public function listar()
+    // Busca um usuário pelo ID
+    public function buscarUsuarioPorId($id_usuario)
     {
-        $usuarios = $this->usuarioModel->listarUsuarios();
-        include 'View/usuarios/listar.php';
+        return $this->usuarioDAO->buscarUsuarioPorId($id_usuario);
+    }
+
+    // Busca todos os usuários
+    public function buscarTodosUsuarios()
+    {
+        return $this->usuarioDAO->buscarTodosUsuarios();
+    }
+
+    // Atualiza um usuário
+    public function atualizarUsuario($id_usuario, $nome_completo, $email, $senha, $username, $foto_de_perfil_url, $frase_favorita, $uploader, $biografia, $links)
+    {
+        $usuario = new Usuario();
+        $usuario->setIdUsuario($id_usuario);
+        $usuario->setNomeCompleto($nome_completo);
+        $usuario->setEmail($email);
+        $usuario->setSenha($senha);
+        $usuario->setUsername($username);
+        $usuario->setFotoDePerfilUrl($foto_de_perfil_url);
+        $usuario->setFraseFavorita($frase_favorita);
+        $usuario->setUploader($uploader);
+        $usuario->setBiografia($biografia);
+        $usuario->setLinks($links);
+
+        return $this->usuarioDAO->atualizarUsuario($usuario);
+    }
+
+    // Exclui um usuário
+    public function excluirUsuario($id_usuario)
+    {
+        return $this->usuarioDAO->excluirUsuario($id_usuario);
+    }
+    // Busca um usuário pelo username
+    public function buscarUsuarioPorUsername($username)
+    {
+        return $this->usuarioDAO->buscarUsuarioPorUsername($username);
     }
 }

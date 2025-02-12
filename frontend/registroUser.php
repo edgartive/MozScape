@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Usuário</title>
-    <link rel="stylesheet" href="registroUser.css
-    ">
+    <link rel="stylesheet" href="registroUser.css">
 </head>
 
 <body>
@@ -24,7 +23,7 @@
         <input type="text" id="username" name="username" required><br>
 
         <label for="foto_de_perfil">Foto de Perfil:</label>
-        <input type="file" id="foto_de_perfil" name="foto_de_perfil" accept="image/*"><br>
+        <input type="file" id="foto_de_perfil" name="foto_de_perfil" accept="image/*" required><br>
 
         <label for="frase_favorita">Frase Favorita:</label>
         <input type="text" id="frase_favorita" name="frase_favorita"><br>
