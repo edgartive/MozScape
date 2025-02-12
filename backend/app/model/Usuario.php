@@ -9,10 +9,10 @@ class Usuario
     private $email;
     private $senha;
     private $username;
-    private $foto_de_perfil;
-    private $frase_favorita;
+    private $foto_de_perfil_url;
+    private $frase_favorita; #boolean 0u 0/1
     private $uploader;
-    private $cidade;
+    private $Biografia;
     private $links;
 
     public function getIdUsuario()
@@ -39,7 +39,15 @@ class Usuario
     {
         return $this->email;
     }
+    public function getBiografia()
+    {
+        return $this->Biografia;
+    }
 
+    public function setBiografia($Biografia)
+    {
+        $this->Biografia = $Biografia;
+    }
     public function setEmail($email)
     {
         $this->email = $email;
@@ -67,12 +75,12 @@ class Usuario
 
     public function getFotoDePerfil()
     {
-        return $this->foto_de_perfil;
+        return $this->foto_de_perfil_url;
     }
 
-    public function setFotoDePerfil($foto_de_perfil)
+    public function setFotoDePerfil($foto_de_perfil_url)
     {
-        $this->foto_de_perfil = $foto_de_perfil;
+        $this->foto_de_perfil_url = $foto_de_perfil_url;
     }
 
     public function getFraseFavorita()
@@ -95,15 +103,6 @@ class Usuario
         $this->uploader = $uploader;
     }
 
-    public function getCidade()
-    {
-        return $this->cidade;
-    }
-
-    public function setCidade($cidade)
-    {
-        $this->cidade = $cidade;
-    }
 
     public function getLinks()
     {

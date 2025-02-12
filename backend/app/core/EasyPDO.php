@@ -22,9 +22,9 @@ class EasyPDO
     // CONNECTION PROPERTIES
     // ------------------------------------------------------------------------
     private $db_host = 'localhost';
-    private $db_name = 'loja';
-    private $db_user = 'user_teste';
-    private $db_pass = 'pain';
+    private $db_name = 'mozscape';
+    private $db_user = 'root';
+    private $db_pass = '';
     private $db_char = 'utf8';
 
     // ------------------------------------------------------------------------

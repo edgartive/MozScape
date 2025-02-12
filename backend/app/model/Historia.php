@@ -7,7 +7,30 @@ class Historia
     private $id_historia;
     private $upload_id;
     private $titulo;
-    private $conteudo;
+    private $id_usuario; # FK - vem da tabela usuarios
+    private $info_wiki; # toda historia do lugar
+
+    // Getter and Setter for id_usuario
+    public function getIdUsuario()
+    {
+        return $this->id_usuario;
+    }
+
+    public function setIdUsuario($id_usuario)
+    {
+        $this->id_usuario = $id_usuario;
+    }
+
+    // Getter and Setter for info_wiki
+    public function getInfoWiki()
+    {
+        return $this->info_wiki;
+    }
+
+    public function setInfoWiki($info_wiki)
+    {
+        $this->info_wiki = $info_wiki;
+    }
 
     // Getter and Setter for id_historia
     public function getIdHistoria()
@@ -40,16 +63,5 @@ class Historia
     public function setTitulo($titulo)
     {
         $this->titulo = $titulo;
-    }
-
-    // Getter and Setter for conteudo
-    public function getConteudo()
-    {
-        return $this->conteudo;
-    }
-
-    public function setConteudo($conteudo)
-    {
-        $this->conteudo = $conteudo;
     }
 }

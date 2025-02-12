@@ -3,10 +3,9 @@
 class Upload
 {
     private $id_upload;
-    private $usuario_id;
+    private $usuario_id; # FK - vem da tabela usuarios
     private $tipo;
     private $data_upload;
-    private $status;
     private $descricao;
     private $likes;
 
@@ -52,15 +51,7 @@ class Upload
         $this->data_upload = $data_upload;
     }
 
-    public function getStatus()
-    {
-        return $this->status;
-    }
 
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
 
     public function getDescricao()
     {

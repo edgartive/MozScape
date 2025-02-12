@@ -5,11 +5,11 @@ namespace App\Model;
 class PedidoUpload
 {
     private $id_pedido;
-    private $id_uploader;
+    private $id_uploader; # FK - vem da tabela usuarios
     private $foto_url; // URL da foto enviada
-    private $descricao;
+    private $descricao; # TEXT , vai guardar pedido de historia ou foto
     private $data_pedido;
-    private $status;
+    private $status; # varrchar
 
     public function getIdPedido()
     {

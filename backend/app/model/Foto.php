@@ -8,7 +8,7 @@ class Foto
     private $caminho;
     private $resolucao;
     private $categoria;
-    private $upload_id;
+    private $upload_id; #FK - vem da tabela uploads
 
     // Getters
     public function getIdFoto()
