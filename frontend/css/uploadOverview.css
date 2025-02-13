@@ -1,0 +1,134 @@
+/* Importação da Fonte */
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fontes/Montserrat-Regular.ttf') format('truetype');
+}
+
+/* Variáveis Globais */
+:root {
+    --primary-color: rgb(0, 155, 225);
+    --secondary-color: #4444446e;
+    --background-color: #0a0f25;
+    --text-color: #ffffff;
+    --container-bg: #353434;
+    /* Novo cinzento */
+}
+
+/* Estilo Geral */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container Principal */
+.uploads-container {
+    width: 90%;
+    max-width: 800px;
+    padding: 1.5rem;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.uploads-container h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+/* Estilo de Cada Upload */
+.upload-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--container-bg);
+    /* Fundo cinzento */
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.upload-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.upload-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-right: 1rem;
+    border: 2px solid var(--primary-color);
+}
+
+.upload-details {
+    flex: 1;
+}
+
+.upload-title {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin: 0 0 0.5rem;
+}
+
+.upload-date,
+.upload-likes {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    margin: 0.2rem 0;
+}
+
+.upload-date span,
+.upload-likes span {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .upload-item {
+        flex-direction: column;
+        /* Coloca a imagem em cima e os detalhes embaixo */
+        align-items: center;
+        /* Centraliza tudo */
+        text-align: center;
+        /* Centraliza o texto */
+    }
+
+    .upload-image {
+        width: 80px;
+        /* Ajusta o tamanho da imagem */
+        height: 80px;
+        margin-bottom: 0.8rem;
+        /* Espaço entre a imagem e os detalhes */
+    }
+
+    .upload-details {
+        margin-top: 0.5rem;
+        /* Espaço entre imagem e texto */
+        width: 100%;
+        /* Garante que o texto ocupe toda a largura disponível */
+    }
+
+    .upload-title {
+        font-size: 1rem;
+        /* Reduz o tamanho do título */
+    }
+
+    .upload-date,
+    .upload-likes {
+        font-size: 0.9rem;
+        /* Mantém o tamanho do texto menor */
+    }
+}

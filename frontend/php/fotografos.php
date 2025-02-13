@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="photographers.css">
+    <title>Fotógrafos Registrados</title>
+</head>
+<body>
+    <div class="photographers-container">
+        <h1 class="title">Fotógrafos Registrados</h1>
+
+        <!-- Ordenação -->
+        <div class="filter-section">
+            <label for="sort-options">Ordenar por:</label>
+            <select id="sort-options" class="sort-select">
+                <option value="name">Nome (A-Z)</option>
+                <option value="uploads">Número de Fotos (Maior para Menor)</option>
+            </select>
+            <button class="filter-button" onclick="sortPhotographers()">Aplicar</button>
+        </div>
+
+        <!-- Lista de Fotógrafos -->
+        <ul class="photographers-list" id="photographers-list">
+            <!-- Os itens serão adicionados dinamicamente -->
+        </ul>
+    </div>
+
+    <script src="photographers.js"></script>
+</body>
+</html>
