@@ -26,7 +26,7 @@
                 <img src="images/logo-black.png" alt="">
             </div>
         </a>
-        <a href="login.html" style="text-decoration: none;">
+        <a href="login.php" style="text-decoration: none;">
             <div class="perfil-usuario">
                 <div class="foto-perfil" style="background-image: url('images/perfil.png');"></div>
             </div>

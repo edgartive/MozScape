@@ -2,6 +2,7 @@
 session_start(); // Inicia a sessão
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 require_once __DIR__ . '/../backend/app/controller/UsuarioController.php';
 require_once __DIR__ . '/../backend/app/core/Database.php';
 

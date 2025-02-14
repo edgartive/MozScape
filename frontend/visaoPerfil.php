@@ -63,7 +63,7 @@ $caminho_foto = "../uploads/profile_pics/" . $usuario['foto_de_perfil_url'];
                 <span class="detail-value"><?php echo htmlspecialchars($usuario['links']); ?></span>
             </div>
         </div>
-        <button class="edit-button" onclick="window.location.href='editar_perfil.php'">Editar Perfil</button>
+        <button class="edit-button" onclick="window.location.href='editPerfil.php'">Editar Perfil</button>
     </div>
 </body>
 

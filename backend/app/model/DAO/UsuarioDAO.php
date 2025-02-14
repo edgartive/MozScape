@@ -76,7 +76,7 @@ class UsuarioDAO
         $stmt->bindValue(':senha', $usuario->getSenha());
         $stmt->bindValue(':username', $usuario->getUsername());
         $stmt->bindValue(':foto_de_perfil_url', $usuario->getFotoDePerfilUrl());
-        $stmt->bindValue(':frase_favorita', $usuario->getFraseFavorita(), PDO::PARAM_INT);
+        $stmt->bindValue(':frase_favorita', $usuario->getFraseFavorita());
         $stmt->bindValue(':uploader', $usuario->getUploader(), PDO::PARAM_INT);
         $stmt->bindValue(':biografia', $usuario->getBiografia());
         $stmt->bindValue(':links', $usuario->getLinks());
