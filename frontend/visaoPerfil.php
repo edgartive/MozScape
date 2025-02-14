@@ -34,6 +34,8 @@ $caminho_foto = "../uploads/profile_pics/" . $usuario['foto_de_perfil_url'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="fontes/webfonts/css/all.css">
+
     <title>Meu Perfil</title>
 </head>
 
@@ -41,7 +43,83 @@ $caminho_foto = "../uploads/profile_pics/" . $usuario['foto_de_perfil_url'];
     <div class="profile-container">
         <div class="profile-header">
             <!-- Exibe a foto de perfil do usuário -->
-            <img src="<?php echo $caminho_foto; ?>" alt="Foto de Perfil" class="profile-picture">
+
+            <div class="profile-picture-container">
+                <img src="<?php echo $caminho_foto; ?>" alt="Foto de Perfil" class="profile-picture">
+                <!-- Ícone de edição -->
+                <div class="edit-icon" onclick="togglePhotoOptions()">
+                    <i class="fas fa-pen"></i>
+                </div>
+
+                <!-- Opções de ação -->
+                <div class="photo-options" id="photo-options">
+                    <button onclick="viewPhoto()">Ver Foto</button>
+                    <button onclick="openEditPhoto()">Trocar Foto</button>
+                </div>
+            </div>
+
+            <script>
+                function togglePhotoOptions() {
+                    document.getElementById("photo-options").classList.toggle("show");
+                }
+
+                function viewPhoto() {
+                    window.open(document.getElementById("profile-picture-preview").src, "_blank");
+                }
+
+                function openEditPhoto() {
+                    window.location.href = "editarFotoPerfil.php";
+                }
+            </script>
+
+            <style>
+                .profile-picture-container {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .edit-icon {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    background: rgba(0, 0, 0, 0.6);
+                    color: white;
+                    border-radius: 50%;
+                    padding: 5px;
+                    cursor: pointer;
+                }
+
+                .photo-options {
+                    display: none;
+                    position: absolute;
+                    bottom: 40px;
+                    right: 0;
+                    background: white;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                    padding: 10px;
+                }
+
+                .photo-options.show {
+                    display: block;
+                }
+
+                .photo-options button {
+                    display: block;
+                    background: none;
+                    border: none;
+                    padding: 5px;
+                    width: 100%;
+                    text-align: left;
+                    cursor: pointer;
+                }
+
+                .photo-options button:hover {
+                    background: #f0f0f0;
+                }
+            </style>
+
             <h2><?php echo htmlspecialchars($usuario['username']); ?></h2>
             <p class="profile-email"><?php echo htmlspecialchars($usuario['email']); ?></p>
         </div>

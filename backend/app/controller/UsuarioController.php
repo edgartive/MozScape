@@ -58,6 +58,10 @@ class UsuarioController
 
         return $this->usuarioDAO->atualizarUsuario($usuario);
     }
+    public function atualizarFotoPerfil($id_usuario, $nova_url)
+    {
+        return $this->usuarioDAO->atualizarFotoPerfil($id_usuario, $nova_url);
+    }
 
     // Exclui um usuário
     public function excluirUsuario($id_usuario)

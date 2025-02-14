@@ -65,19 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $links
     );
 
-    // Atualiza os dados do usuário
-    $usuarioController->atualizarUsuario(
-        $_SESSION['id_usuario'],
-        $nome_completo,
-        $email,
-        $usuario['senha'], // Mantém a senha atual
-        $username,
-        $foto_de_perfil_url,
-        $frase_favorita,
-        $usuario['uploader'],
-        $biografia,
-        $links
-    );
 
     // Redireciona para a página de perfil
     header('Location: visaoPerfil.php');

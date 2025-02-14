@@ -103,4 +103,12 @@ class UsuarioDAO
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function atualizarFotoPerfil($id_usuario, $nova_url)
+    {
+        $query = "UPDATE usuarios SET foto_de_perfil_url = :foto_de_perfil_url WHERE id_usuario = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':foto_de_perfil_url', $nova_url);
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }
