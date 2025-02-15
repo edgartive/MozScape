@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload da História</title>
-    <link rel="stylesheet" href="uploadStory.css">
+    <link rel="stylesheet" href="../css/uploadStory.css">
 </head>
 
 <body>
@@ -14,9 +14,7 @@
     </header>
 
     <main>
-        <p>
-            Just testing
-        </p>
+
         <div class="form-container">
             <h2>Carregue sua Foto e Adicione a História</h2>
             <form id="uploadForm">
@@ -38,12 +36,12 @@
 
                 <div class="form-group">
                     <label for="hashtags">Hashtags:</label>
-                    <input  class="inputF" type="text" id="hashtags" name="hashtags" placeholder="Exemplo: #viagem, #aventura" required>
+                    <input class="inputF" type="text" id="hashtags" name="hashtags" placeholder="Exemplo: #viagem, #aventura" required>
                 </div>
 
                 <div class="form-group">
                     <label for="date">Data da Foto:</label>
-                    <input  class="inputF" type="date" id="date" name="date" required>
+                    <input class="inputF" type="date" id="date" name="date" required>
                 </div>
 
                 <div class="form-group">

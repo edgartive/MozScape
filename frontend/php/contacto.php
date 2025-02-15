@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto</title>
-    <link rel="stylesheet" href="contacto.css">
+    <link rel="stylesheet" href="../css/contacto.css">
 </head>
+
 <body>
     <header>
-        <h2 style="text-align: center;">  </h2>
-        <a href="index.html">
+        <h2 style="text-align: center;"> </h2>
+        <a href="index.php">
             <div id="back-home" style="position: absolute; top: 10px; left: 10px;
             display: flex;
             align-items: center;
@@ -17,21 +19,10 @@
             padding: 5px 10px;
             border-radius: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);">
-                <img src="images/logo-black.png" alt="">
+                <img src="../images/logo-black.png" alt="">
             </div>
         </a>
-        <div class="perfil-usuario">
-            <div class="foto-perfil" style="background-image: url('images/perfil.png');"></div>
-            <label id="username">Pain 29</label>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="categorias.html" >Categorias</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="contacto.html" id="destacar">Contactos</a></li>
-            </ul>
-        </nav>
+
     </header>
     <main>
         <section class="info-contacto">
@@ -42,7 +33,7 @@
         </section>
         <section class="mapa">
             <h2>Localização</h2>
-            <iframe 
+            <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15069.340456968622!2d32.5941449!3d-25.9534669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ee66912f09dc5ef%3A0xa2cf66d2c76c743b!2sGuilherme%20Guyer%20Station%2C%20Maputo!5e0!3m2!1sen!2smz!4v1699261234567!5m2!1sen!2smz">
             </iframe>
         </section>
@@ -63,4 +54,5 @@
         <p>&copy; 2024 Pain Designer</p>
     </footer>
 </body>
+
 </html>

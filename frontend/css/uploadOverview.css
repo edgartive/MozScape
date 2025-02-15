@@ -1,7 +1,7 @@
 /* Importação da Fonte */
 @font-face {
     font-family: 'Montserrat';
-    src: url('fontes/Montserrat-Regular.ttf') format('truetype');
+    src: url('../fontes/Montserrat-Regular.ttf') format('truetype');
 }
 
 /* Variáveis Globais */
@@ -10,7 +10,8 @@
     --secondary-color: #4444446e;
     --background-color: #0a0f25;
     --text-color: #ffffff;
-    --container-bg: #353434; /* Novo cinzento */
+    --container-bg: #353434;
+    /* Novo cinzento */
 }
 
 /* Estilo Geral */
@@ -47,7 +48,8 @@ body {
 .upload-item {
     display: flex;
     align-items: center;
-    background-color: var(--container-bg); /* Fundo cinzento */
+    background-color: var(--container-bg);
+    /* Fundo cinzento */
     margin-bottom: 1.5rem;
     padding: 1rem;
     border-radius: 8px;
@@ -80,43 +82,53 @@ body {
     margin: 0 0 0.5rem;
 }
 
-.upload-date, 
+.upload-date,
 .upload-likes {
     font-size: 0.9rem;
     color: var(--text-color);
     margin: 0.2rem 0;
 }
 
-.upload-date span, 
+.upload-date span,
 .upload-likes span {
     font-weight: 600;
     color: var(--primary-color);
 }
+
 /* Responsividade */
 @media (max-width: 768px) {
     .upload-item {
-        flex-direction: column; /* Coloca a imagem em cima e os detalhes embaixo */
-        align-items: center; /* Centraliza tudo */
-        text-align: center; /* Centraliza o texto */
+        flex-direction: column;
+        /* Coloca a imagem em cima e os detalhes embaixo */
+        align-items: center;
+        /* Centraliza tudo */
+        text-align: center;
+        /* Centraliza o texto */
     }
 
     .upload-image {
-        width: 80px; /* Ajusta o tamanho da imagem */
+        width: 80px;
+        /* Ajusta o tamanho da imagem */
         height: 80px;
-        margin-bottom: 0.8rem; /* Espaço entre a imagem e os detalhes */
+        margin-bottom: 0.8rem;
+        /* Espaço entre a imagem e os detalhes */
     }
 
     .upload-details {
-        margin-top: 0.5rem; /* Espaço entre imagem e texto */
-        width: 100%; /* Garante que o texto ocupe toda a largura disponível */
+        margin-top: 0.5rem;
+        /* Espaço entre imagem e texto */
+        width: 100%;
+        /* Garante que o texto ocupe toda a largura disponível */
     }
 
     .upload-title {
-        font-size: 1rem; /* Reduz o tamanho do título */
+        font-size: 1rem;
+        /* Reduz o tamanho do título */
     }
 
     .upload-date,
     .upload-likes {
-        font-size: 0.9rem; /* Mantém o tamanho do texto menor */
+        font-size: 0.9rem;
+        /* Mantém o tamanho do texto menor */
     }
 }

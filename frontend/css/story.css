@@ -1,0 +1,509 @@
+/* Configurações gerais */
+
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fontes/Montserrat-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0a0f25;
+    color: #ffffff;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    /* Fixa o header no topo sem sair do fluxo */
+    top: 0;
+    /* Alinha ao topo */
+    z-index: 1000;
+    /* Garante que fique acima de outros elementos */
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: rgb(0, 155, 225);
+}
+
+
+/* Cabeçalho */
+
+/* Barra de Pesquisa */
+.barra-pesquisa {
+    background-color: #1b2333;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 10px;
+    margin: 2rem 0;
+}
+
+.barra-pesquisa form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+.barra-pesquisa input {
+    padding: 0.8rem;
+    width: 300px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+}
+
+.barra-pesquisa button {
+    display: flex;
+    /* Ativa o Flexbox */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
+    padding: 0;
+    /* Remove padding extra */
+    color: white;
+    border: none;
+    height: 45px;
+    width: 45px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    /* Fundo do botão */
+}
+
+/* Estilo para a ComboBox */
+.barra-pesquisa select {
+    padding: 0.8rem;
+    /* Mesma altura do campo de texto */
+    border-radius: 5px;
+    /* Borda arredondada */
+    border: none;
+    /* Remove borda padrão */
+    font-size: 1rem;
+    /* Mesma fonte do input */
+    background-color: #1b2333;
+    /* Cor de fundo semelhante */
+    color: white;
+    /* Cor do texto */
+    width: auto;
+    /* Ajusta a largura automaticamente */
+    margin-right: 1rem;
+    /* Espaçamento à direita */
+    cursor: pointer;
+    /* Aponta como interativo */
+}
+
+
+#opcoes {
+    padding: 0.4rem;
+    width: 19px;
+    /* Mesma altura do campo de texto */
+    border-radius: 5px;
+    /* Borda arredondada */
+    border: none;
+    /* Remove borda padrão */
+    font-size: 1rem;
+    /* Mesma fonte do input */
+    background-color: #1b2333;
+    /* Cor de fundo */
+    color: white;
+
+    /* Ajusta a largura automaticamente */
+
+
+}
+
+/* Seta personalizada */
+.custom-select {
+    position: relative;
+    display: inline-block;
+}
+
+
+
+/* Estilo das opções */
+option {
+    white-space: nowrap;
+    /* Impede que o texto quebre em várias linhas */
+    padding: 5px 10px;
+    /* Espaçamento interno */
+}
+
+/* Estilo para o placeholder da ComboBox */
+.barra-pesquisa select option[disabled] {
+    color: #888;
+    /* Cor diferenciada para o placeholder */
+}
+
+.barra-pesquisa label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    /* Tamanho da fonte */
+    font-weight: bold;
+    /* Negrito para destaque */
+    color: #007bb5;
+    /* Cor do texto */
+    margin-bottom: 5px;
+    /* Espaço entre a label e o select */
+    display: block;
+    /* Garante que a label fique em uma linha separada */
+}
+
+.barra-pesquisa button img {
+    height: 45px;
+    /* Ajuste do tamanho do ícone */
+    width: 45px;
+}
+
+
+
+
+#hastags a {
+    color: #ff4500;
+    text-decoration: none;
+}
+
+#hastags a:hover {
+    color: #007bb5;
+    /* Cor ao passar o mouse */
+}
+
+/* Grid de Categorias */
+.categorias-destaque {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 itens por linha */
+    gap: 1rem;
+    justify-items: center;
+}
+
+.categoria {
+    width: 340px;
+    text-align: center;
+    background-color: #1b2333;
+    padding: 0.6rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Adiciona animação suave */
+}
+
+.categoria img {
+    width: 100%;
+    /* A largura da imagem ocupa 100% do contêiner */
+    height: 200px;
+    /* A altura da imagem é fixa para garantir o formato quadrado */
+    object-fit: cover;
+    /* Faz com que a imagem cubra o espaço sem se deformar */
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+    /* Animação suave para a imagem */
+}
+
+.categoria p {
+    color: rgb(255, 255, 255);
+    font-size: 1.1rem;
+}
+
+/* Efeito de aumento nas categorias ao passar o mouse */
+.categoria:hover {
+    /* Aumenta a categoria como um todo */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    /* Sombras mais pronunciadas ao passar o mouse */
+}
+
+.categoria:hover img {
+    transform: scale(1.05);
+    /* Aumenta a imagem ao passar o mouse */
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+}
+
+#destacar {
+    border-bottom: 4px solid rgb(0, 155, 225);
+    /* Define a borda como underline */
+    padding-bottom: 5px;
+    /* Espaçamento entre o texto e a linha */
+}
+
+.perfil-usuario {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Fundo levemente transparente */
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.foto-perfil {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 10px;
+    border: 2px solid #ffffff;
+}
+
+#username {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajuste do grid para telas maiores */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 itens por linha em telas grandes */
+    gap: 2rem;
+    /* Espaçamento entre os itens */
+    justify-items: center;
+}
+
+/* Ajuste para tablets (largura máxima: 768px) */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 itens por linha */
+        gap: 1.5rem;
+        /* Reduz o espaçamento */
+    }
+}
+
+/* Ajuste para smartphones (largura máxima: 480px) */
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+        /* 1 item por linha */
+        gap: 1rem;
+        /* Menor espaçamento */
+    }
+
+    .categoria {
+        width: 90%;
+        /* Reduz a largura do container */
+    }
+}
+
+/* Ajustes para telas menores (tablets) */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 itens por linha */
+        gap: 1.5rem;
+        /* Reduz o espaçamento */
+    }
+
+    .barra-pesquisa input {
+        width: 200px;
+        /* Ajusta largura do campo de busca */
+    }
+
+    .perfil-usuario {
+        top: 10px;
+        right: 5px;
+        padding: 5px;
+    }
+
+    #username {
+        font-size: 12px;
+    }
+}
+
+/* Ajustes para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+        /* 1 item por linha */
+    }
+
+    header {
+        text-align: center;
+        /* Centraliza o cabeçalho */
+        padding: 1rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .barra-pesquisa input {
+        width: 100%;
+        /* Usa toda a largura disponível */
+    }
+
+    .perfil-usuario {
+        flex-direction: column;
+        /* Nome abaixo da imagem */
+        align-items: center;
+        top: 5px;
+        right: 5px;
+    }
+
+    .foto-perfil {
+        width: 30px;
+        height: 30px;
+    }
+
+    #username {
+        font-size: 10px;
+        margin-top: 5px;
+    }
+}
+
+/* Ajuste do ícone de perfil para telas menores */
+@media (max-width: 768px) {
+    .perfil-usuario {
+        position: static;
+        /* Remove a posição absoluta */
+        margin: 10px auto;
+        /* Centraliza o ícone */
+        display: flex;
+        justify-content: center;
+        /* Centraliza horizontalmente */
+    }
+
+    header {
+        text-align: center;
+        /* Centraliza o conteúdo do cabeçalho */
+        padding: 1rem 0;
+    }
+
+    h2 {
+        margin-top: 1rem;
+        /* Espaçamento extra para evitar sobreposição */
+    }
+}
+
+/* Ajuste para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    .perfil-usuario {
+        flex-direction: column;
+        /* Organiza o ícone e o texto em coluna */
+        align-items: center;
+    }
+
+    #back-home {
+        flex-direction: column;
+        /* Organiza o ícone e o texto em coluna */
+        align-items: center;
+
+    }
+
+    #username {
+        margin-top: 5px;
+        /* Adiciona espaço entre o ícone e o texto */
+        font-size: 12px;
+        /* Reduz o tamanho da fonte */
+    }
+
+    h2 {
+        font-size: 18px;
+        /* Reduz o tamanho da fonte para encaixar melhor */
+    }
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    /* Fixa o header no topo */
+    top: 0;
+    /* Alinha ao topo */
+    z-index: 1000;
+    /* Garante visibilidade acima de outros elementos */
+}
+
+/* Ajuste para telas muito pequenas (smartphones) */
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem 0;
+        /* Reduz o padding no topo e embaixo */
+        font-size: 0.9rem;
+        /* Reduz o tamanho do texto */
+    }
+
+    nav ul {
+        flex-direction: row;
+        /* Mantém os itens horizontais */
+        gap: 1rem;
+        /* Reduz o espaçamento entre os itens */
+    }
+
+    nav ul li a {
+        font-size: 0.9rem;
+        /* Reduz o tamanho das fontes dos links */
+    }
+}
+
+/* Ajuste para dispositivos móveis */
+@media (max-width: 480px) {
+    .barra-pesquisa form {
+        flex-direction: column;
+        /* Muda para exibição em coluna */
+        align-items: stretch;
+        /* Alinha os elementos na largura disponível */
+        gap: 0.5rem;
+        /* Reduz o espaçamento entre os elementos */
+    }
+
+    .barra-pesquisa select,
+    .barra-pesquisa label,
+    .barra-pesquisa input,
+    .barra-pesquisa button {
+        width: 100%;
+        /* Garante que ocupem toda a largura */
+    }
+
+    .barra-pesquisa label {
+        text-align: left;
+        /* Alinha a label à esquerda */
+    }
+}
