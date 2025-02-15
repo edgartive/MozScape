@@ -13,16 +13,18 @@ class UsuarioDAO
         $this->db = $db;
     }
 
-    // Cria um novo usuário
     public function criarUsuario(Usuario $usuario)
     {
+        // Gera o hash da senha
+        $senhaHash = password_hash($usuario->getSenha(), PASSWORD_DEFAULT);
+
         $query = "INSERT INTO usuarios (nome_completo, email, senha, username, foto_de_perfil_url, frase_favorita, uploader, biografia, links) 
                   VALUES (:nome_completo, :email, :senha, :username, :foto_de_perfil_url, :frase_favorita, :uploader, :biografia, :links)";
         $stmt = $this->db->prepare($query);
 
         $stmt->bindValue(':nome_completo', $usuario->getNomeCompleto());
         $stmt->bindValue(':email', $usuario->getEmail());
-        $stmt->bindValue(':senha', $usuario->getSenha());
+        $stmt->bindValue(':senha', $senhaHash); // Usa o hash da senha
         $stmt->bindValue(':username', $usuario->getUsername());
         $stmt->bindValue(':foto_de_perfil_url', $usuario->getFotoDePerfilUrl());
         $stmt->bindValue(':frase_favorita', $usuario->getFraseFavorita(), PDO::PARAM_INT);
@@ -100,8 +102,7 @@ class UsuarioDAO
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':username', $username);
         $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo
     }
     public function atualizarFotoPerfil($id_usuario, $nova_url)
     {

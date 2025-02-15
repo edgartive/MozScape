@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../model/dao/UsuarioDAO.php';
 require_once __DIR__ . '/../model/Usuario.php';
+require_once __DIR__ . '/../controller/UsuarioController.php';
 
 session_start();
 if (!isset($_SESSION['id_usuario'])) {
@@ -8,30 +9,58 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 $id_usuario = $_SESSION['id_usuario'];
-$usuarioDAO = new UsuarioDAO();
-$usuario = $usuarioDAO->buscarUsuarioPorId($id_usuario);
+
+// Inicializa o controller
+$db = new Database(); // Supondo que você já tenha uma classe Database configurada
+$usuarioController = new UsuarioController($db);
+
+// Busca o usuário atual
+$usuario = $usuarioController->buscarUsuarioPorId($id_usuario);
 $fotoAtual = $usuario['foto_de_perfil_url'] ?? 'default.jpg';
+
+$erro = '';
+$sucesso = '';
 
 // Verifica se houve upload
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
     $uploadDir = __DIR__ . '/../uploads/profile_pics/';
 
     // Certifica-se de que a pasta existe
-
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
 
-    $novoNome = uniqid() . '_' . basename($_FILES['foto']['name']);
-    $caminhoFinal = $uploadDir . $novoNome;
+    // Validação do arquivo
+    $arquivo = $_FILES['foto'];
+    $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
+    $extensoesPermitidas = ['jpg', 'jpeg', 'png', 'gif'];
 
-    if (move_uploaded_file($_FILES['foto']['tmp_name'], $caminhoFinal)) {
-        // Atualiza a URL no banco de dados
-        $usuarioDAO->atualizarFotoPerfil($id_usuario, $novoNome);
-        header("Location: editarfotoperfil.php");
-        exit();
+    if (!in_array($extensao, $extensoesPermitidas)) {
+        $erro = "Formato de arquivo não permitido! Apenas JPG, JPEG, PNG e GIF são aceitos.";
+    } elseif ($arquivo['size'] > 5 * 1024 * 1024) { // 5MB
+        $erro = "O arquivo é muito grande! O tamanho máximo permitido é 5MB.";
     } else {
-        $erro = "Erro ao fazer upload da foto!";
+        // Exclui a foto anterior, se não for a padrão
+        if ($fotoAtual !== 'default.jpg' && file_exists($uploadDir . $fotoAtual)) {
+            unlink($uploadDir . $fotoAtual);
+        }
+
+        // Gera um nome único para o arquivo
+        $novoNome = uniqid() . '_' . basename($arquivo['name']);
+        $caminhoFinal = $uploadDir . $novoNome;
+
+        if (move_uploaded_file($arquivo['tmp_name'], $caminhoFinal)) {
+            // Atualiza a URL no banco de dados
+            if ($usuarioController->atualizarFotoPerfil($id_usuario, $novoNome)) {
+                $sucesso = "Foto de perfil atualizada com sucesso!";
+                header("Location: editarfotoperfil.php");
+                exit();
+            } else {
+                $erro = "Erro ao atualizar a foto de perfil no banco de dados.";
+            }
+        } else {
+            $erro = "Erro ao fazer upload da foto!";
+        }
     }
 }
 ?>
@@ -44,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Foto de Perfil</title>
     <link rel="stylesheet" href="styles.css"> <!-- Seu CSS aqui -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         .perfil-container {
             text-align: center;
@@ -95,6 +123,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
             object-fit: cover;
             margin-top: 10px;
         }
+
+        .mensagem {
+            margin-top: 20px;
+            color: red;
+        }
+
+        .sucesso {
+            color: green;
+        }
     </style>
 </head>
 
@@ -105,6 +142,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
             <img src="../uploads/profile_pics/<?= htmlspecialchars($fotoAtual) ?>" class="foto-perfil" id="fotoPerfil">
             <i class="fas fa-pencil-alt edit-icon" id="editIcon"></i>
         </div>
+        <?php if ($erro): ?>
+            <div class="mensagem"><?= htmlspecialchars($erro) ?></div>
+        <?php endif; ?>
+        <?php if ($sucesso): ?>
+            <div class="mensagem sucesso"><?= htmlspecialchars($sucesso) ?></div>
+        <?php endif; ?>
     </div>
 
     <div id="modalEscolha" class="modal">

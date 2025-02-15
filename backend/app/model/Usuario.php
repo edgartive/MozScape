@@ -60,7 +60,7 @@ class Usuario
     public function setSenha($senha)
     {
         // Encripta a senha antes de armazená-la
-        $this->senha = password_hash($senha, PASSWORD_BCRYPT);
+        $this->senha = $senha;
     }
     public function getUsername()
     {
