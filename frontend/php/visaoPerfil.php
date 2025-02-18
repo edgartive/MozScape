@@ -24,7 +24,7 @@ if (!$usuario) {
 }
 
 // Depuração: Exibe o caminho da foto
-$caminho_foto = "../../uploads/profile_pics/" . $usuario['foto_de_perfil_url'];
+$caminho_foto = "../uploads/profile_pics/" . $usuario['foto_de_perfil_url'];
 ?>
 
 <!DOCTYPE html>

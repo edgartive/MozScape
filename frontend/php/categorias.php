@@ -1,6 +1,23 @@
 <?php
-$placeholder = 'Water 7';
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['id_usuario'])) {
+    die("Acesso negado. Faça login para continuar.");
+}
+
+// Caminhos corrigidos usando __DIR__
+require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
+require_once __DIR__ . '/../../backend/app/core/Database.php';
+$id_usuario = $_SESSION['id_usuario'];
+$db = (new Database())->getConnection();
+$usuarioController = new UsuarioController($db);
+
+// Busca o usuário atual
+$usuario = $usuarioController->buscarUsuarioPorId($id_usuario);
+$uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -78,9 +95,13 @@ $placeholder = 'Water 7';
             <button type="submit">
                 <i class="fas fa-search"></i> <!-- Ícone de pesquisa -->
             </button>
-            <a href="upload.php" class="upload-btn" style="color: white;">
-                <i class="fas fa-upload"></i> <!-- Ícone de upload -->
-            </a>
+
+            <?php if ($uploader == 1): ?>
+
+                <a href="upload.php" class="upload-btn" style="color: white;">
+                    <i class="fas fa-upload"></i> <!-- Ícone de upload -->
+                </a>
+            <?php endif; ?>
 
             <!-- Botão de Informação com Ícone -->
             <button type="button" id="infoButton" onclick="abrirJOptionPane()">

@@ -3,8 +3,8 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require_once __DIR__ . '/../backend/app/controller/UsuarioController.php';
-require_once __DIR__ . '/../backend/app/core/Database.php';
+require_once __DIR__ . '/../../../backend/app/controller/UsuarioController.php';
+require_once __DIR__ . '/../../../backend/app/core/Database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -30,18 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['email'] = $usuario['email'];
 
                 // Redireciona para a página inicial
-                header('Location: index.php');
+                header('Location: ../index.php');
                 exit;
             } else {
                 die("Senha incorreta. <a href='login.php'>Tente novamente</a>.");
             }
         } else {
-            die("Usuário não encontrado. <a href='login.php'>Tente novamente</a>.");
+            die("Usuário não encontrado. <a href='../login.php'>Tente novamente</a>.");
         }
     } catch (Exception $e) {
         die("Erro ao processar o login. Tente novamente mais tarde.");
     }
 } else {
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit;
 }

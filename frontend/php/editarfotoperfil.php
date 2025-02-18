@@ -1,17 +1,19 @@
 <?php
-require_once __DIR__ . '/../model/dao/UsuarioDAO.php';
-require_once __DIR__ . '/../model/Usuario.php';
-require_once __DIR__ . '/../controller/UsuarioController.php';
-
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
-    die("Acesso negado!");
+    die("Acesso negado. Faça login para continuar.");
 }
 
-$id_usuario = $_SESSION['id_usuario'];
+// Caminhos corrigidos usando __DIR__
+require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
+require_once __DIR__ . '/../../backend/app/core/Database.php';
 
-// Inicializa o controller
-$db = new Database(); // Supondo que você já tenha uma classe Database configurada
+$id_usuario = $_SESSION['id_usuario'];
+$db = (new Database())->getConnection();
 $usuarioController = new UsuarioController($db);
 
 // Busca o usuário atual
@@ -22,7 +24,7 @@ $erro = '';
 $sucesso = '';
 
 // Verifica se houve upload
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto_de_perfil'])) {
     $uploadDir = __DIR__ . '/../uploads/profile_pics/';
 
     // Certifica-se de que a pasta existe
@@ -31,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
     }
 
     // Validação do arquivo
-    $arquivo = $_FILES['foto'];
+    $arquivo = $_FILES['foto_de_perfil'];
     $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
     $extensoesPermitidas = ['jpg', 'jpeg', 'png', 'gif'];
 
@@ -53,8 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
             // Atualiza a URL no banco de dados
             if ($usuarioController->atualizarFotoPerfil($id_usuario, $novoNome)) {
                 $sucesso = "Foto de perfil atualizada com sucesso!";
-                header("Location: editarfotoperfil.php");
-                exit();
+                header("Location: visaoperfil.php");
+                exit;
             } else {
                 $erro = "Erro ao atualizar a foto de perfil no banco de dados.";
             }
@@ -84,44 +86,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            position: relative;
+            margin-bottom: 20px;
         }
 
-        .edit-icon {
-            position: absolute;
-            top: 110px;
-            left: 55%;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px #000;
-            text-align: center;
-        }
-
-        .modal.active {
+        .form-group label {
             display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
-        #preview {
-            display: none;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: 10px;
+        .form-group input[type="file"] {
+            display: block;
+            margin: 0 auto;
         }
 
         .mensagem {
@@ -132,71 +112,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto'])) {
         .sucesso {
             color: green;
         }
+
+        .btn-salvar {
+            background-color: #4CAF50;
+            /* Verde */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-salvar:hover {
+            background-color: #45a049;
+            /* Verde mais escuro ao passar o mouse */
+        }
     </style>
 </head>
 
 <body>
 
     <div class="perfil-container">
-        <div style="position: relative; display: inline-block;">
-            <img src="../uploads/profile_pics/<?= htmlspecialchars($fotoAtual) ?>" class="foto-perfil" id="fotoPerfil">
-            <i class="fas fa-pencil-alt edit-icon" id="editIcon"></i>
-        </div>
+        <img src="../uploads/profile_pics/<?= htmlspecialchars($fotoAtual) ?>" class="foto-perfil" id="fotoPerfil">
+
         <?php if ($erro): ?>
             <div class="mensagem"><?= htmlspecialchars($erro) ?></div>
         <?php endif; ?>
         <?php if ($sucesso): ?>
             <div class="mensagem sucesso"><?= htmlspecialchars($sucesso) ?></div>
         <?php endif; ?>
-    </div>
 
-    <div id="modalEscolha" class="modal">
-        <h3>O que deseja fazer?</h3>
-        <button onclick="verFoto()">Ver Foto</button>
-        <button onclick="trocarFoto()">Trocar Foto</button>
-    </div>
-
-    <div id="modalUpload" class="modal">
-        <h3>Escolha uma nova foto</h3>
         <form action="editarfotoperfil.php" method="POST" enctype="multipart/form-data">
-            <input type="file" name="foto" id="inputFoto" accept="image/*">
-            <img id="preview">
-            <br>
-            <button type="submit">Atualizar Foto</button>
-            <button type="button" onclick="fecharModal('modalUpload')">Cancelar</button>
+            <div class="form-group">
+                <label for="foto_de_perfil">Escolha uma nova foto de perfil:</label>
+                <input type="file" name="foto_de_perfil" id="foto_de_perfil" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn-salvar">Salvar</button>
         </form>
     </div>
-
-    <script>
-        document.getElementById("editIcon").addEventListener("click", function() {
-            document.getElementById("modalEscolha").classList.add("active");
-        });
-
-        function verFoto() {
-            window.open(document.getElementById("fotoPerfil").src, "_blank");
-        }
-
-        function trocarFoto() {
-            document.getElementById("modalEscolha").classList.remove("active");
-            document.getElementById("modalUpload").classList.add("active");
-        }
-
-        function fecharModal(id) {
-            document.getElementById(id).classList.remove("active");
-        }
-
-        document.getElementById("inputFoto").addEventListener("change", function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById("preview").src = e.target.result;
-                    document.getElementById("preview").style.display = "block";
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
 
 </body>
 

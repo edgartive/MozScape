@@ -6,8 +6,8 @@ if (!isset($_SESSION['id_usuario'])) {
     header('Location: login.php'); // Redireciona para o login se não estiver logado
     exit;
 }
-require_once __DIR__ . '/../backend/app/controller/UsuarioController.php';
-require_once __DIR__ . '/../backend/app/core/Database.php';
+require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
+require_once __DIR__ . '/../../backend/app/core/Database.php';
 // Conecta ao banco de dados
 $db = (new Database())->getConnection();
 $usuarioController = new UsuarioController($db);
@@ -26,12 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $links = $_POST['links'];
 
     // Processa o upload da nova foto de perfil, se houver
-    // Processa o upload da nova foto de perfil, se houver
     if (isset($_FILES['foto_de_perfil']) && $_FILES['foto_de_perfil']['error'] === UPLOAD_ERR_OK) {
         $foto_de_perfil = $_FILES['foto_de_perfil'];
         $nome_arquivo = uniqid() . '_' . basename($foto_de_perfil['name']);
         $caminho_destino = __DIR__ . '/../../uploads/profile_pics/' . $nome_arquivo;
-        $nova_url = 'https://seusite.com/uploads/profile_pics/' . $nome_arquivo; // URL gerada para salvar no banco
 
         // Se houver uma URL antiga e ela for do seu domínio, remova-a
         if (!empty($usuario['foto_de_perfil_url']) && strpos($usuario['foto_de_perfil_url'], 'seusite.com/uploads/profile_pics/') !== false) {
@@ -78,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="../css/perfil.css">
     <title>Editar Perfil</title>
 </head>
 
@@ -88,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Exibe a foto de perfil atual -->
             <div class="profile-picture-container">
                 <img src="../../uploads/profile_pics/<?php echo $usuario['foto_de_perfil_url']; ?>" alt="Foto de Perfil" class="profile-picture" id="profile-picture-preview">
-                <label for="foto_de_perfil" class="upload-label">Alterar Foto</label>
                 <input type="file" id="foto_de_perfil" name="foto_de_perfil" accept="image/*" style="display: none;">
             </div>
         </div>

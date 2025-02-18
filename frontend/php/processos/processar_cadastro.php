@@ -6,8 +6,9 @@ ini_set('display_startup_errors', 1);
 session_start();
 
 // Caminhos corrigidos usando __DIR__
-require_once __DIR__ . '/../backend/app/controller/UsuarioController.php';
-require_once __DIR__ . '/../backend/app/core/Database.php';
+
+require_once __DIR__ . '/../../../backend/app/controller/UsuarioController.php';
+require_once __DIR__ . '/../../../backend/app/core/Database.php';
 
 
 
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = $_POST['senha'];
     $username = $_POST['username'];
     $frase_favorita = $_POST['frase_favorita'] ?? ''; // Valor padrão se não for enviado
-    $uploader = isset($_POST['uploader']) ? 1 : 0; // 1 se marcado, 0 se não
+    $uploader = 0;
     $biografia = $_POST['biografia'] ?? ''; // Valor padrão se não for enviado
     $links = $_POST['links'] ?? ''; // Valor padrão se não for enviado
 
@@ -26,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['foto_de_perfil']) && $_FILES['foto_de_perfil']['error'] === UPLOAD_ERR_OK) {
         $foto_de_perfil = $_FILES['foto_de_perfil'];
         $nome_arquivo = uniqid() . '_' . basename($foto_de_perfil['name']); // Nome único para o arquivo
-        $caminho_destino = __DIR__ . '/../uploads/profile_pics/' . $nome_arquivo;
+        $caminho_destino = __DIR__ . '/../../uploads/profile_pics/' . $nome_arquivo;
 
         // Move o arquivo para a pasta de uploads
         if (move_uploaded_file($foto_de_perfil['tmp_name'], $caminho_destino)) {
@@ -44,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Cria o usuário
     if ($usuarioController->criarUsuario($nome_completo, $email, $senha, $username, $foto_de_perfil_url, $frase_favorita, $uploader, $biografia, $links)) {
-        header('Location: login.php'); // Redireciona para a tela de login após o cadastro
+        header('Location: ../login.php'); // Redireciona para a tela de login após o cadastro
         exit;
     } else {
         die("Erro ao cadastrar usuário.");
