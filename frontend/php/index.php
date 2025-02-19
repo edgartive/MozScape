@@ -35,9 +35,11 @@
                 <option value="favoritosECollections.php">Favoritos</option>
                 <option value="settings.php">Definições</option>
                 <option value="statusUpload.php">Ver pedidos</option>
+                <option value="uploaderrequest.php">Ser uploader</option>
                 <option value="ajuda_faq.php">Ajuda</option>
                 <option value="contacto.php">Contactos</option>
                 <option value="manual.php">Manual de instruções</option>
+
                 <option value="logout.php">Sair</option>
             </select>
 
