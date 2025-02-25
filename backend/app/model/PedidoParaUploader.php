@@ -6,21 +6,26 @@ class PedidoParaUploader
 {
     private $id_pedido;
     private $id_usuario;
-    private $foto1_url;
-    private $foto2_url;
-    private $foto3_url;
+    private $foto_url;
+    private $link_rede_social;
     private $frase_favorita;
     private $data_pedido;
     private $status;
 
+    public function __construct($id_usuario, $foto_url, $link_rede_social, $frase_favorita, $data_pedido, $status = 'pendente')
+    {
+        $this->id_usuario = $id_usuario;
+        $this->foto_url = $foto_url;
+        $this->link_rede_social = $link_rede_social;
+        $this->frase_favorita = $frase_favorita;
+        $this->data_pedido = $data_pedido;
+        $this->status = $status;
+    }
+
+    // Getters
     public function getIdPedido()
     {
         return $this->id_pedido;
-    }
-
-    public function setIdPedido($id_pedido)
-    {
-        $this->id_pedido = $id_pedido;
     }
 
     public function getIdUsuario()
@@ -28,39 +33,14 @@ class PedidoParaUploader
         return $this->id_usuario;
     }
 
-    public function setIdUsuario($id_usuario)
+    public function getFotoUrl()
     {
-        $this->id_usuario = $id_usuario;
+        return $this->foto_url;
     }
 
-    public function getFoto1Url()
+    public function getLinkRedeSocial()
     {
-        return $this->foto1_url;
-    }
-
-    public function setFoto1Url($foto1_url)
-    {
-        $this->foto1_url = $foto1_url;
-    }
-
-    public function getFoto2Url()
-    {
-        return $this->foto2_url;
-    }
-
-    public function setFoto2Url($foto2_url)
-    {
-        $this->foto2_url = $foto2_url;
-    }
-
-    public function getFoto3Url()
-    {
-        return $this->foto3_url;
-    }
-
-    public function setFoto3Url($foto3_url)
-    {
-        $this->foto3_url = $foto3_url;
+        return $this->link_rede_social;
     }
 
     public function getFraseFavorita()
@@ -68,24 +48,20 @@ class PedidoParaUploader
         return $this->frase_favorita;
     }
 
-    public function setFraseFavorita($frase_favorita)
-    {
-        $this->frase_favorita = $frase_favorita;
-    }
-
     public function getDataPedido()
     {
         return $this->data_pedido;
     }
 
-    public function setDataPedido($data_pedido)
-    {
-        $this->data_pedido = $data_pedido;
-    }
-
     public function getStatus()
     {
         return $this->status;
+    }
+
+    // Setters
+    public function setIdPedido($id_pedido)
+    {
+        $this->id_pedido = $id_pedido;
     }
 
     public function setStatus($status)

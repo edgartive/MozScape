@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="fontes/webfonts/css/all.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../fontes/webfonts/css/all.css">
     <title>Painel do Administrador</title>
 </head>
 
@@ -18,7 +18,7 @@
             <li class="admin-item">
                 <i class="fas fa-users"></i>
                 <span>Lista de Fotógrafos</span>
-                <a href="fotografos.html"> <button class="action-button"
+                <a href="fotografos.PHP"> <button class="action-button"
                         onclick="navigateTo('photographersList')">Acessar</button></a>
             </li>
             <li class="admin-item">
@@ -28,9 +28,10 @@
             </li>
             <li class="admin-item">
                 <i class="fas fa-user-check"></i>
-                <span>Pedidos de Uploaders</span>
-                <button class="action-button" onclick="navigateTo('requestsManagement')">Acessar</button>
+                <span>Pedidos de Uploaders</span><a href="ver_pedidos.php">
+                    <button class="action-button" onclick="navigateTo('requestsManagement')">Acessar</button> </a>
             </li>
+
             <li class="admin-item">
                 <i class="fas fa-chart-bar"></i>
                 <span>Relatórios & Estatísticas</span>
@@ -51,9 +52,6 @@
 
     <script>
         // Simples função para navegação (pode ser substituída por lógica real)
-        function navigateTo(sectionId) {
-            alert("Você acessou: " + sectionId);
-        }
     </script>
 </body>
 
