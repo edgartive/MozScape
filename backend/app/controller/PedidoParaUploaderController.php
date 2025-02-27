@@ -39,8 +39,25 @@ class PedidoUploaderController
     {
         return $this->pedidoUploaderDAO->buscarTodosPedidos();
     }
-    public function atualizarStatus($id_pedido, $status)
+    public function atualizarStatus($id_pedido, $status, $id_usuario)
     {
-        return $this->pedidoUploaderDAO->atualizarStatus($id_pedido, $status);
+        return $this->pedidoUploaderDAO->atualizarStatus($id_pedido, $status, $id_usuario);
+    }
+    public function verificarPedidoExistente($id_usuario)
+    {
+        return $this->pedidoUploaderDAO->verificarPedidoExistente($id_usuario);
+    }
+
+    public function buscarStatusPedido($id_usuario)
+    {
+        return $this->pedidoUploaderDAO->buscarStatusPedido($id_usuario);
+    }
+    public function buscarPedidoPorUsuario($id_usuario)
+    {
+        return $this->pedidoUploaderDAO->buscarPedidoPorUsuario($id_usuario);
+    }
+    public function buscarPedidosPorStatus($status)
+    {
+        return $this->pedidoUploaderDAO->buscarPedidosPorStatus($status);
     }
 }

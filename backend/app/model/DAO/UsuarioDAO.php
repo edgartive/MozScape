@@ -112,4 +112,14 @@ class UsuarioDAO
         $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
         return $stmt->execute();
     }
+    public function buscarFotografos()
+    {
+        $query = "SELECT id_usuario, nome_completo, username, email, foto_de_perfil_url, biografia, links 
+                  FROM usuarios 
+                  WHERE uploader = 1 
+                  ORDER BY nome_completo ASC";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

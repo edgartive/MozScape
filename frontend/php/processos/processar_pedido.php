@@ -15,6 +15,11 @@ $id_usuario = $_SESSION['id_usuario'];
 $db = (new Database())->getConnection();
 $pedidoUploaderController = new PedidoUploaderController($db);
 
+// Verifica se o usuário já tem um pedido
+if ($pedidoUploaderController->verificarPedidoExistente($id_usuario)) {
+    die("Você já tem um pedido em andamento. Aguarde a aprovação.");
+}
+
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validação dos campos
@@ -32,9 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $caminhoFinal = $uploadDir . $nomeArquivo;
 
     if (move_uploaded_file($_FILES['photoUpload']['tmp_name'], $caminhoFinal)) {
-        // Cria o pedido
+        // Cria o pedido com status "pendente"
         $dataPedido = date('Y-m-d H:i:s');
-        if ($pedidoUploaderController->criarPedido($id_usuario, $nomeArquivo, $_POST['socialLink'], $_POST['favoritePhrase'], $dataPedido)) {
+        if ($pedidoUploaderController->criarPedido($id_usuario, $nomeArquivo, $_POST['socialLink'], $_POST['favoritePhrase'], $dataPedido, 'pendente')) {
             echo "Pedido enviado com sucesso! Aguarde a aprovação.";
             header('Location: ../index.php');
         } else {

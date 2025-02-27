@@ -30,7 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? null;
     if ($acao === 'aceitar' || $acao === 'rejeitar') {
         $status = ($acao === 'aceitar') ? 'aprovado' : 'recusado';
-        if ($pedidoUploaderController->atualizarStatus($id_pedido, $status)) {
+        $id_usuario = $pedido['id_usuario']; // Obtém o ID do usuário associado ao pedido
+
+        if ($pedidoUploaderController->atualizarStatus($id_pedido, $status, $id_usuario)) {
             header("Location: ver_pedidos.php");
             exit;
         } else {
@@ -49,76 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Detalhes do Pedido</title>
     <link rel="stylesheet" href="../css/detalhes_pedido.css"> <!-- Seu CSS aqui -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .detalhes-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .detalhes-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .detalhes-container .foto {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .detalhes-container .foto img {
-            max-width: 60%;
-            height: auto;
-            border-radius: 8px;
-        }
-
-        .detalhes-container .info {
-            margin-bottom: 20px;
-        }
-
-        .detalhes-container .info p {
-            margin: 10px 0;
-        }
-
-        .detalhes-container .acoes {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .detalhes-container .acoes button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .detalhes-container .acoes button.aceitar {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .detalhes-container .acoes button.rejeitar {
-            background-color: #dc3545;
-            color: #fff;
-        }
-
-        .detalhes-container .acoes button:hover {
-            opacity: 0.9;
-        }
+        /* Estilos CSS aqui */
     </style>
 </head>
 

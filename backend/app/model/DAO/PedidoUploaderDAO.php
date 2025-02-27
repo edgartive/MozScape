@@ -80,17 +80,96 @@ class PedidoUploaderDAO
     }
     public function buscarTodosPedidos()
     {
-        $query = "SELECT * FROM pedidosuploader ORDER BY data_pedido DESC";
+        // Consulta com JOIN para buscar o nome_completo ou username da tabela usuarios
+        $query = "SELECT p.*, u.nome_completo, u.username 
+                  FROM pedidosuploader p 
+                  JOIN usuarios u ON p.id_usuario = u.id_usuario 
+                  ORDER BY p.data_pedido DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function atualizarStatus($id_pedido, $status)
+
+    public function buscarPedidoPorUsuario($id_usuario)
     {
-        $query = "UPDATE pedidosuploader SET status = :status WHERE id_pedido = :id_pedido";
+        $query = "SELECT * 
+                  FROM pedidosuploader 
+                  WHERE id_usuario = :id_usuario 
+                  ORDER BY data_pedido DESC 
+                  LIMIT 1";
         $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':status', $status);
-        $stmt->bindValue(':id_pedido', $id_pedido);
-        return $stmt->execute();
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function verificarPedidoExistente($id_usuario)
+    {
+        $query = "SELECT COUNT(*) 
+                  FROM pedidosuploader 
+                  WHERE id_usuario = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0; // Retorna true se houver um pedido
+    }
+
+    public function buscarStatusPedido($id_usuario)
+    {
+        $query = "SELECT status 
+                  FROM pedidosuploader 
+                  WHERE id_usuario = :id_usuario 
+                  ORDER BY data_pedido DESC 
+                  LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchColumn(); // Retorna o status do pedido (pendente, aprovado, recusado)
+    }
+    public function atualizarStatus($id_pedido, $status, $id_usuario)
+    {
+        // Inicia uma transação para garantir que ambas as operações sejam executadas corretamente
+        $this->db->beginTransaction();
+
+        try {
+            // Atualiza o status do pedido
+            $queryPedido = "UPDATE pedidosuploader SET status = :status WHERE id_pedido = :id_pedido";
+            $stmtPedido = $this->db->prepare($queryPedido);
+            $stmtPedido->bindValue(':status', $status, PDO::PARAM_STR); // Garante que o valor seja tratado como string
+            $stmtPedido->bindValue(':id_pedido', $id_pedido, PDO::PARAM_INT);
+            $stmtPedido->execute();
+
+            // Se o status for "aprovado", atualiza a coluna `uploader` do usuário para 1
+            if ($status === 'aprovado') {
+                $queryUsuario = "UPDATE usuarios SET uploader = 1 WHERE id_usuario = :id_usuario";
+                $stmtUsuario = $this->db->prepare($queryUsuario);
+                $stmtUsuario->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $stmtUsuario->execute();
+            }
+
+            // Se o status for "recusado", garante que a coluna `uploader` do usuário seja 0
+            if ($status === 'recusado') {
+                $queryUsuario = "UPDATE usuarios SET uploader = 0 WHERE id_usuario = :id_usuario";
+                $stmtUsuario = $this->db->prepare($queryUsuario);
+                $stmtUsuario->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+                $stmtUsuario->execute();
+            }
+
+            // Confirma a transação
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            // Em caso de erro, desfaz a transação
+            $this->db->rollBack();
+            error_log("Erro ao atualizar status do pedido: " . $e->getMessage()); // Log do erro
+            return false;
+        }
+    }
+    public function buscarPedidosPorStatus($status)
+    {
+        $query = "SELECT * FROM pedidosuploader WHERE status = :status ORDER BY data_pedido DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -40,7 +40,10 @@ class UsuarioController
     {
         return $this->usuarioDAO->buscarTodosUsuarios();
     }
-
+    public function buscarFotografos()
+    {
+        return $this->usuarioDAO->buscarFotografos();
+    }
     // Atualiza um usuário
     public function atualizarUsuario($id_usuario, $nome_completo, $email, $senha, $username, $foto_de_perfil_url, $frase_favorita, $uploader, $biografia, $links)
     {

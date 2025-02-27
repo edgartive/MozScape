@@ -14,8 +14,15 @@ require_once __DIR__ . '/../../backend/app/core/Database.php';
 $db = (new Database())->getConnection();
 $pedidoUploaderController = new PedidoUploaderController($db);
 
-// Busca todos os pedidos
-$pedidos = $pedidoUploaderController->buscarTodosPedidos();
+// Obtém o status selecionado para o filtro (ou usa 'todos' como padrão)
+$statusFiltro = $_GET['status'] ?? 'todos';
+
+// Busca os pedidos com base no filtro
+if ($statusFiltro === 'todos') {
+    $pedidos = $pedidoUploaderController->buscarTodosPedidos();
+} else {
+    $pedidos = $pedidoUploaderController->buscarPedidosPorStatus($statusFiltro);
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,13 +32,26 @@ $pedidos = $pedidoUploaderController->buscarTodosPedidos();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos de Uploader</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Seu CSS aqui -->
+    <link rel="stylesheet" href="../css/ver_pedidos.css"> <!-- Seu CSS aqui -->
     <style>
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            color: #333;
             padding: 20px;
+        }
+
+        .filtro-container {
+            margin-bottom: 20px;
+        }
+
+        .filtro-container label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .filtro-container select {
+            padding: 5px;
+            font-size: 16px;
         }
 
         .pedido-container {
@@ -39,26 +59,17 @@ $pedidos = $pedidoUploaderController->buscarTodosPedidos();
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            background-color: #f9f9f9;
+            background-color: #fff;
         }
 
         .pedido-container h3 {
             margin-top: 0;
         }
 
-        .pedido-container .foto {
-            margin-bottom: 15px;
-        }
-
         .pedido-container .foto img {
-            width: 50%;
-            max-width: 160px;
+            max-width: 30%;
             height: auto;
             border-radius: 5px;
-        }
-
-        .pedido-container .info {
-            margin-bottom: 10px;
         }
 
         .pedido-container .info p {
@@ -67,7 +78,6 @@ $pedidos = $pedidoUploaderController->buscarTodosPedidos();
 
         .pedido-container .status {
             font-weight: bold;
-            color: #333;
         }
 
         .status.pendente {
@@ -101,6 +111,19 @@ $pedidos = $pedidoUploaderController->buscarTodosPedidos();
 <body>
     <h1>Pedidos de Uploader</h1>
 
+    <!-- Filtro de status -->
+    <div class="filtro-container">
+        <form method="GET" action="">
+            <label for="status">Filtrar por status:</label>
+            <select name="status" id="status" onchange="this.form.submit()">
+                <option value="todos" <?= $statusFiltro === 'todos' ? 'selected' : '' ?>>Todos</option>
+                <option value="pendente" <?= $statusFiltro === 'pendente' ? 'selected' : '' ?>>Pendentes</option>
+                <option value="aprovado" <?= $statusFiltro === 'aprovado' ? 'selected' : '' ?>>Aprovados</option>
+                <option value="recusado" <?= $statusFiltro === 'recusado' ? 'selected' : '' ?>>Recusados</option>
+            </select>
+        </form>
+    </div>
+
     <?php if (empty($pedidos)): ?>
         <p>Nenhum pedido encontrado.</p>
     <?php else: ?>
@@ -122,7 +145,7 @@ $pedidos = $pedidoUploaderController->buscarTodosPedidos();
                 </div>
 
                 <!-- Link para detalhes do pedido -->
-                <a href="detalhes_pedidos.php?id_pedido=<?= $pedido['id_pedido'] ?>">Ver Detalhes</a>
+                <a href="detalhes_pedido.php?id_pedido=<?= $pedido['id_pedido'] ?>">Ver Detalhes</a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
