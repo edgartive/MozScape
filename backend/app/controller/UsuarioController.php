@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../model/dao/UsuarioDAO.php';
 require_once __DIR__ . '/../model/Usuario.php';
+require_once __DIR__ . '/../model/dao/UsuarioDAO.php';
 
 class UsuarioController
 {
@@ -34,7 +34,10 @@ class UsuarioController
     {
         return $this->usuarioDAO->buscarUsuarioPorId($id_usuario);
     }
-
+    public function buscarFotografos2()
+    {
+        return $this->usuarioDAO->buscarFotografos();
+    }
     // Busca todos os usuários
     public function buscarTodosUsuarios()
     {

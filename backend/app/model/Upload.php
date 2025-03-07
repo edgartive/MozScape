@@ -8,6 +8,16 @@ class Upload
     private $data_upload;
     private $descricao;
     private $likes;
+    private $foto_url;
+
+    public function getFotoUrl()
+    {
+        return $this->foto_url;
+    }
+    public function setFotoUrl($foto_url)
+    {
+        $this->foto_url = $foto_url;
+    }
 
 
     public function getIdUpload()

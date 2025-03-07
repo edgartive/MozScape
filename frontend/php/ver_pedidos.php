@@ -145,7 +145,7 @@ if ($statusFiltro === 'todos') {
                 </div>
 
                 <!-- Link para detalhes do pedido -->
-                <a href="detalhes_pedido.php?id_pedido=<?= $pedido['id_pedido'] ?>">Ver Detalhes</a>
+                <a href="detalhes_pedidos_upload.php">Ver Detalhes</a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

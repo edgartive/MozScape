@@ -5,11 +5,22 @@ namespace App\Model;
 class PedidoUpload
 {
     private $id_pedido;
-    private $id_uploader; # FK - vem da tabela usuarios
+    private $id_usuario; # FK - vem da tabela usuarios
     private $foto_url; // URL da foto enviada
     private $descricao; # TEXT , vai guardar pedido de historia ou foto
     private $data_pedido;
     private $status; # varrchar
+    private $tipo; # varrchar
+
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    public function setTipo($tipo)
+    {
+        $this->tipo = $tipo;
+    }
 
     public function getIdPedido()
     {
@@ -21,14 +32,13 @@ class PedidoUpload
         $this->id_pedido = $id_pedido;
     }
 
-    public function getIdUploader()
+    public function getIdUsuario()
     {
-        return $this->id_uploader;
+        return $this->id_usuario;
     }
-
-    public function setIdUploader($id_uploader)
+    public function setIdUsuario($id_usuario)
     {
-        $this->id_uploader = $id_uploader;
+        $this->id_usuario = $id_usuario;
     }
 
     public function getFotoUrl()
