@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 14, 2025 at 09:53 PM
+-- Generation Time: Apr 29, 2025 at 11:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,12 +28,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `administradores` (
-  `id` int(11) NOT NULL,
+  `id_admin` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `senha` varchar(255) NOT NULL,
-  `permissoes` text DEFAULT NULL
+  `username` varchar(255) NOT NULL,
+  `senha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `administradores`
+--
+
+INSERT INTO `administradores` (`id_admin`, `nome`, `username`, `senha`) VALUES
+(1, 'admin', 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -63,6 +69,29 @@ CREATE TABLE `pedidosupload` (
   `data_pedido` datetime DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pedidosuploader`
+--
+
+CREATE TABLE `pedidosuploader` (
+  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `foto_url` varchar(255) NOT NULL,
+  `link_rede_social` varchar(255) DEFAULT NULL,
+  `frase_favorita` text DEFAULT NULL,
+  `data_pedido` datetime DEFAULT current_timestamp(),
+  `status` varchar(50) DEFAULT 'pendente'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pedidosuploader`
+--
+
+INSERT INTO `pedidosuploader` (`id`, `id_usuario`, `foto_url`, `link_rede_social`, `frase_favorita`, `data_pedido`, `status`) VALUES
+(1, 4, '680ba2903efb6_20250412_164613.jpg', 'https://web.whatsapp.com/', 'I hate people with love.', '2025-04-25 16:56:16', 'pendente');
 
 -- --------------------------------------------------------
 
@@ -105,9 +134,10 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `nome_completo`, `email`, `senha`, `username`, `foto_de_perfil_url`, `frase_favorita`, `uploader`, `biografia`, `links`) VALUES
 (1, 'Pain', 'edsonpain29@gmail.com', '123', 'paindesigner_29', '67ad06e77d946_IMG_9961.jpg', '0', 0, 'I love my penis', 'www.mypika.com'),
 (2, 'Edson', 'paindesigner29@gmail.com', '111', 'pain', '67ad1c21589f0_IMG_9955.jpg', '0', 0, 'I like everything on her', 'my links'),
-(4, 'Das Doresr', 'edsonpadin29@gmail.com', '$2y$10$2fc/PdgECq6naxyW7U7n1OglsqF.biMqIcGzhJLi0KlGNeVy0hupO', 'edson', '67ad20f5dbe9f_IMG_9946.jpg', '0', 0, 'He loves boobs', 'Linkss'),
+(4, 'Das Doresr', 'edsonpadin29@gmail.com', '$2y$10$2fc/PdgECq6naxyW7U7n1OglsqF.biMqIcGzhJLi0KlGNeVy0hupO', 'edson', '680ba68c157ce_20250412_164613.jpg', '0', 0, 'He loves boobs', 'Linkss'),
 (5, 'Ele Lindo', 'edsonpainas29@gmail.com', '$2y$10$tyan569KgwrcOklugX23SOO/GLwt9EZntgq4j4Q/ChYk1K36EP/La', 'lindo', '67af8dc3540be_IMG_0027-3.jpg', '0', 0, 'A chill guy, bro', 'www.www.com'),
-(7, 'Pain Designer', 'edsonddspain29@gmail.com', '$2y$10$jth7xsBIxOwNtdwCNmBJO.fEFUJJRwPVzAHut0krQkxDjyrwgd6V.', 'paindzn', '67af9658c427b_IMG_0055.jpg', 'Peace was never an option.', 0, 'Nikes and adidas', 'ess dedsos');
+(7, 'Pain Designer', 'edsonddspain29@gmail.com', '$2y$10$jth7xsBIxOwNtdwCNmBJO.fEFUJJRwPVzAHut0krQkxDjyrwgd6V.', 'paindzn', '67af9658c427b_IMG_0055.jpg', 'Peace was never an option.', 0, 'Nikes and adidas', 'ess dedsos'),
+(9, 'Pain Pik', 'edsonpain249@gmail.com', '$2y$10$VHRRmvGo7cXJ6q0TaMqX7OJ6hJoBAES.L.gRu/0WpQJEQAjGkDhTi', 'dzn', '6800ddf225c82_mapa.gif', 'Peace was never an option.', 0, 'Just a chill guy', 'yes.com');
 
 --
 -- Indexes for dumped tables
@@ -117,8 +147,8 @@ INSERT INTO `usuarios` (`id_usuario`, `nome_completo`, `email`, `senha`, `userna
 -- Indexes for table `administradores`
 --
 ALTER TABLE `administradores`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id_admin`),
+  ADD UNIQUE KEY `email` (`username`);
 
 --
 -- Indexes for table `historias`
@@ -134,6 +164,13 @@ ALTER TABLE `historias`
 ALTER TABLE `pedidosupload`
   ADD PRIMARY KEY (`id_pedido`),
   ADD KEY `id_uploader` (`id_uploader`);
+
+--
+-- Indexes for table `pedidosuploader`
+--
+ALTER TABLE `pedidosuploader`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indexes for table `uploads`
@@ -158,7 +195,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `administradores`
 --
 ALTER TABLE `administradores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `historias`
@@ -173,6 +210,12 @@ ALTER TABLE `pedidosupload`
   MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `pedidosuploader`
+--
+ALTER TABLE `pedidosuploader`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `uploads`
 --
 ALTER TABLE `uploads`
@@ -182,7 +225,7 @@ ALTER TABLE `uploads`
 -- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -200,6 +243,12 @@ ALTER TABLE `historias`
 --
 ALTER TABLE `pedidosupload`
   ADD CONSTRAINT `pedidosupload_ibfk_1` FOREIGN KEY (`id_uploader`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `pedidosuploader`
+--
+ALTER TABLE `pedidosuploader`
+  ADD CONSTRAINT `pedidosuploader_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
 -- Constraints for table `uploads`
