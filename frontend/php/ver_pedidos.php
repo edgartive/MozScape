@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -126,6 +127,7 @@ if ($statusFiltro === 'todos') {
 
     <?php if (empty($pedidos)): ?>
         <p>Nenhum pedido encontrado.</p>
+
     <?php else: ?>
         <?php foreach ($pedidos as $pedido): ?>
             <div class="pedido-container">

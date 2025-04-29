@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../model/Upload.php';
+require_once __DIR__ . '/../model/dao/UploadDAO.php';
 
 class UploadController
 {

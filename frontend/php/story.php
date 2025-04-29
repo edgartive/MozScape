@@ -5,11 +5,13 @@ ini_set('display_errors', 1);
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
-    die("Acesso negado. Faça login para continuar.");
+ 
+//header('Location:index.pg')
+
+    //  die("Acesso negado. Faça login para continuar.");
 }
 
-// Caminhos corrigidos usando __DIR__
-require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
+ require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
 require_once __DIR__ . '/../../backend/app/core/Database.php';
 
 $id_usuario = $_SESSION['id_usuario'];
@@ -31,8 +33,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
     <link rel="stylesheet" href="../css/story.css">
     <link rel="stylesheet" href="../fontes/webfonts/css/all.css">
     <style>
-        /* ... (CSS styles from previous response, included below) ... */
-    </style>
+     </style>
 </head>
 
 <body>
@@ -54,7 +55,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
             <div class="perfil-usuario">
                 <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
                 <select id="opcoes" name="categoria">
-                    <option value=""></option> <!-- Opção padrão -->
+                    <option value=""></option>  
                     <option value="visaoPerfil.php">Meu perfil</option>
                     <option value="favoritosECollections.php">Favoritos</option>
                     <option value="definicoes.php">Definições</option>
@@ -216,8 +217,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
         </footer>
 
         <script>
-            // JavaScript (if needed for dynamic like counts)
-            function pesquisarCategoria() {
+             function pesquisarCategoria() {
                 var input = document.getElementById('pesquisa').value.toLowerCase();
                 var categorias = document.querySelectorAll('.categoria');
 

@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Login bem-sucedido como administrador
         $_SESSION['id_admin'] = $admin['id_admin'];
         $_SESSION['tipo_usuario'] = 'admin'; // Define o tipo de usuário como admin
-        header('Location: ../admin.php'); // Redireciona para a tela de admin
+        header('Location: ../admin.php'); // leva para a tela de admin
         exit;
     }
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Login bem-sucedido como usuário normal
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
         $_SESSION['tipo_usuario'] = 'usuario'; // Define o tipo de usuário como usuário normal
-        header('Location: ../index.php'); // Redireciona para a tela de usuário
+        header('Location: ../index.php'); // leva para a tela de usuário
         exit;
     }
 

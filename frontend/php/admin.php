@@ -13,7 +13,6 @@
     <div class="admin-container">
         <h1>Painel do Administrador</h1>
 
-        <!-- Lista de Opções -->
         <ul class="admin-list">
             <li class="admin-item">
                 <i class="fas fa-users"></i>
@@ -51,7 +50,6 @@
     </div>
 
     <script>
-        // Simples função para navegação (pode ser substituída por lógica real)
     </script>
 </body>
 

@@ -3,6 +3,7 @@
 use App\Model\PedidoUpload;
 
 require_once __DIR__ . '/../model/PedidoUpload.php';
+require_once __DIR__ . '/../model/dao/PedidoUploadDAO.php';
 
 class PedidoUploadController
 {

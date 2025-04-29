@@ -54,7 +54,7 @@ nav ul li a:hover {
 
 
 body {
-    background-image: url(../images/arquitetura.jpg);
+    /*background-image: url(../images/arquitetura.jpg);*/
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
@@ -168,7 +168,6 @@ header {
 
 /* Hero Section */
 .hero {
-    background: url('banner.jpg') no-repeat center center/cover;
     height: 60vh;
     display: flex;
     flex-direction: column;
@@ -325,9 +324,6 @@ a {
         box-shadow: none;
     }
 
-    .back-home img {
-        width: 100px;
-    }
 
     .back-home {
         width: 70px !important;

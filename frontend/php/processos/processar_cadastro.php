@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
     $username = $_POST['username'];
-    $frase_favorita = $_POST['frase_favorita'] ?? ''; // Valor padrão se não for enviado
+    $frase_favorita = $_POST['frase_favorita'] ?? 'Mozscape is life'; // Valor padrão se não for enviado
     $uploader = 0;
     $biografia = $_POST['biografia'] ?? ''; // Valor padrão se não for enviado
     $links = $_POST['links'] ?? ''; // Valor padrão se não for enviado
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Cria o usuário
     if ($usuarioController->criarUsuario($nome_completo, $email, $senha, $username, $foto_de_perfil_url, $frase_favorita, $uploader, $biografia, $links)) {
-        header('Location: ../login.php'); // Redireciona para a tela de login após o cadastro
+        header('Location: ../login.php'); // abre a tela de login após o cadastro
         exit;
     } else {
         die("Erro ao cadastrar usuário.");

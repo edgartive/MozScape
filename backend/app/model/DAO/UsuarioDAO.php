@@ -90,10 +90,12 @@ class UsuarioDAO
     // Exclui um usuário
     public function excluirUsuario($id_usuario)
     {
-        $query = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
+        $query = "UPDATE usuarios SET 
+                   status = 0 
+                  WHERE id_usuario = :id_usuario";
+        // Aqui, em vez de deletar o usuário, apenas atualizamos o status para 0 (inativo)";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
-
         return $stmt->execute();
     }
     public function buscarUsuarioPorUsername($username)
