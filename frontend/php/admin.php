@@ -23,7 +23,7 @@
             <li class="admin-item">
                 <i class="fas fa-file-upload"></i>
                 <span>Gerenciar Uploads</span>
-                <button class="action-button" onclick="navigateTo('uploadsManagement')">Acessar</button>
+                <button class="action-button" onclick="navigateTo('admin_pedidos.php')">Acessar</button>
             </li>
             <li class="admin-item">
                 <i class="fas fa-user-check"></i>

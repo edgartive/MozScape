@@ -9,8 +9,8 @@ class PedidoUpload
     private $foto_url; // URL da foto enviada
     private $descricao; # TEXT , vai guardar pedido de historia ou foto
     private $data_pedido;
-    private $status; # varrchar
-    private $tipo; # varrchar
+    private $status; # varchar
+    private $tipo; # varchar
 
     public function getTipo()
     {

@@ -1,18 +1,31 @@
 <?php
 
+require_once __DIR__ . '/../model/DAO/UploadDAO.php';
+require_once __DIR__ . '/../model/DAO/PedidoUploadDAO.php';
 require_once __DIR__ . '/../model/Upload.php';
-require_once __DIR__ . '/../model/dao/UploadDAO.php';
 
 class UploadController
 {
     private $uploadDAO;
+    private $db;
+    private $pedidoUploadDAO;
 
     public function __construct($db)
     {
         $this->uploadDAO = new UploadDAO($db);
+        $this->pedidoUploadDAO = new PedidoUploadDAO($db);
+        $this->uploadDAO = new UploadDAO($db);
+        $this->uploadDAO = new UploadDAO($db);
+    }
+    public function buscarUploadPorId($id_upload)
+    {
+        $query = "SELECT * FROM uploads WHERE id = :id_upload";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_upload', $id_upload, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Cria um novo upload
     public function criarUpload($usuario_id, $tipo, $data_upload, $descricao, $likes, $foto_url)
     {
         $upload = new Upload();
@@ -24,5 +37,133 @@ class UploadController
         $upload->setFotoUrl($foto_url);
 
         return $this->uploadDAO->criarUpload($upload);
+    }
+
+    public function listarUploads()
+    {
+        return $this->uploadDAO->listarUploads();
+    }
+    public function criarUploadAprovadoTeste($id_pedido)
+    {
+        // Buscar o pedido
+        $pedido = $this->pedidoUploadDAO->buscarPedidoPorId($id_pedido);
+        if (!$pedido || $pedido['status'] !== 'pendente') {
+            return false;
+        }
+
+        // Criar registro na tabela UPLOAD
+        $data_upload = date('Y-m-d H:i:s');
+        $upload = new Upload();
+        $upload->setUsuarioId($pedido['id_usuario']);
+        $upload->setTipo($pedido['tipo']);
+        $upload->setDataUpload($data_upload);
+        $upload->setDescricao($pedido['descricao']);
+        $upload->setLikes(0);
+        $upload->setFotoUrl($pedido['foto_url']);
+
+        if ($this->uploadDAO->criarUpload($upload)) {
+            // Atualizar status do pedido
+            return $this->pedidoUploadDAO->atualizarStatus($id_pedido, 'aprovado');
+        }
+        return false;
+    }
+    public function curtirUpload($id_upload)
+    {
+        return $this->uploadDAO->curtirUpload($id_upload);
+    }
+    public function pesquisarUploads($termo)
+    {
+        $query = "SELECT u.* FROM UPLOAD u
+              JOIN usuarios us ON u.usuario_id = us.id_usuario
+              WHERE u.descricao LIKE :termo 
+              OR u.tipo LIKE :termo
+              OR us.nome_completo LIKE :termo
+              ORDER BY u.data_upload DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':termo', '%' . $termo . '%');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function pesquisarPorFotografo($nome)
+    {
+        $query = "SELECT u.* FROM UPLOAD u
+              JOIN usuarios us ON u.usuario_id = us.id_usuario
+              WHERE us.nome_completo LIKE :nome
+              ORDER BY u.data_upload DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':nome', '%' . $nome . '%');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function listarUploadsPorCategoria($categoria)
+    {
+        $query = "SELECT * FROM UPLOAD WHERE tipo = :categoria ORDER BY data_upload DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':categoria', $categoria);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function criarUploadAprovado($id_pedido)
+    {
+        // 1. Busca o pedido no banco
+        $pedido = $this->pedidoUploadDAO->buscarPedidoPorId($id_pedido);
+        if (!$pedido || $pedido['status'] !== 'pendente') {
+            error_log("Pedido inválido ou já processado: " . $id_pedido);
+            return false;
+        }
+
+        // 2. Define os caminhos (corrigido para Windows)
+        $origem = __DIR__ . '\\..\\..\\..\\uploads\\pedidos\\' . $pedido['foto_url'];
+        $destinoDir = __DIR__ . '\\..\\..\\..\\uploads\\aprovados\\';
+
+        // 3. Cria a pasta de aprovados se não existir
+        if (!file_exists($destinoDir)) {
+            if (!mkdir($destinoDir, 0755, true)) {
+                error_log("Falha ao criar diretório: " . $destinoDir);
+                return false;
+            }
+        }
+
+        $destino = $destinoDir . $pedido['foto_url'];
+
+        // 4. Verifica se o arquivo de origem existe
+        if (!file_exists($origem)) {
+            error_log("Arquivo original não encontrado: " . $origem);
+            return false;
+        }
+
+        // 5. Primeiro cria o registro no banco
+        $upload = new Upload();
+        $upload->setUsuarioId($pedido['id_usuario']);
+        $upload->setTipo($pedido['tipo']);
+        $upload->setDataUpload(date('Y-m-d H:i:s'));
+        $upload->setDescricao($pedido['descricao']);
+        $upload->setLikes(0);
+        $upload->setFotoUrl($pedido['foto_url']);
+
+        if ($this->uploadDAO->criarUpload($upload)) {
+            // 6. Move o arquivo após sucesso no banco
+            if (rename($origem, $destino)) {
+                // 7. Atualiza status do pedido
+                if ($this->pedidoUploadDAO->atualizarStatus($id_pedido, 'aprovado')) {
+                    return true;
+                } else {
+                    error_log("Falha ao atualizar status do pedido: " . $id_pedido);
+                    // Reverte a movimentação do arquivo se falhar
+                    rename($destino, $origem);
+                }
+            } else {
+                error_log("Falha ao mover arquivo: " . error_get_last()['message']);
+            }
+
+            // Se chegar aqui, algo falhou - remove o upload criado
+            $this->uploadDAO->removerUpload($upload->getIdUpload());
+        }
+
+        return false;
     }
 }

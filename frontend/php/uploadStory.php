@@ -40,12 +40,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="date">Data da Foto:</label>
+                    <label for="date">Data da Foto (opcional):</label>
                     <input class="inputF" type="date" id="date" name="date" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="location">Localização (opcional):</label>
+                    <label for="location">Localização:</label>
                     <input class="inputF" type="text" id="location" name="location" placeholder="Digite a localização">
                 </div>
 
@@ -55,7 +55,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Sua Plataforma</p>
+        <p>&copy; 2024 Mozscape</p>
     </footer>
 
 </body>

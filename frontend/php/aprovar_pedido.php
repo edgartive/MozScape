@@ -18,7 +18,7 @@ if (!$id_pedido) {
 $db = (new Database())->getConnection();
 $pedidoUploaderController = new PedidoUploaderController($db);
 
-if ($pedidoUploaderController->atualizarStatus($id_pedido, 'aprovado')) {
+if ($pedidoUploaderController->atualizarStatus($id_pedido, 'aprovado', $_SESSION['id_usuario'])) {
     header("Location: ver_pedidos.php");
     exit;
 } else {

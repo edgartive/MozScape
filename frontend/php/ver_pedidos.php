@@ -131,7 +131,7 @@ if ($statusFiltro === 'todos') {
     <?php else: ?>
         <?php foreach ($pedidos as $pedido): ?>
             <div class="pedido-container">
-                <h3>Pedido #<?= htmlspecialchars($pedido['id_pedido']) ?></h3>
+                <h3>Pedido #<?= isset($pedido['id_pedido']) ? htmlspecialchars($pedido['id_pedido']) : 'N/A' ?></h3>
 
                 <!-- Foto -->
                 <div class="foto">
@@ -147,7 +147,7 @@ if ($statusFiltro === 'todos') {
                 </div>
 
                 <!-- Link para detalhes do pedido -->
-                <a href="detalhes_pedidos_upload.php">Ver Detalhes</a>
+                <a href="detalhes_pedidos.php?id_pedido=<?= isset($pedido['id_pedido']) ? htmlspecialchars($pedido['id_pedido']) : '' ?>">Ver Detalhes</a>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
