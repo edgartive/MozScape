@@ -21,8 +21,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($id_pedido && $acao) {
         if ($acao === 'aprovar') {
-            $pedido = $pedidoController->buscarPedidoPorId($id_pedido);
+            // Substitua a chamada problemática por:
+            $detalhesPedido = $pedidoUploadController->buscarPedidoPorId($_GET['id']);
 
+            if (!$detalhesPedido) {
+                die("Pedido não encontrado ou erro ao buscar informações");
+            }
+
+            // Agora você pode acessar:
+            $pedido = $detalhesPedido['pedido'];
+            $autor = $detalhesPedido['autor'];
             $uploadController->criarUpload(
                 $pedido['id_usuario'],
                 $pedido['tipo'],

@@ -109,61 +109,62 @@ class UploadController
     }
     public function criarUploadAprovado($id_pedido)
     {
-        // 1. Busca o pedido no banco
+        $baseDir = realpath(__DIR__ . '/../../') . '/';
+        $backupDir = $baseDir . 'uploads/backups/';
+        $aprovadosDir = $baseDir . 'uploads/aprovados/';
+
+        // Garante diretório de aprovados
+        if (!file_exists($aprovadosDir)) {
+            mkdir($aprovadosDir, 0755, true);
+        }
+
         $pedido = $this->pedidoUploadDAO->buscarPedidoPorId($id_pedido);
-        if (!$pedido || $pedido['status'] !== 'pendente') {
-            error_log("Pedido inválido ou já processado: " . $id_pedido);
-            return false;
+        if (!$pedido) {
+            throw new Exception("Pedido não encontrado");
         }
 
-        // 2. Define os caminhos (corrigido para Windows)
-        $origem = __DIR__ . '\\..\\..\\..\\uploads\\pedidos\\' . $pedido['foto_url'];
-        $destinoDir = __DIR__ . '\\..\\..\\..\\uploads\\aprovados\\';
+        $nomeArquivo = $pedido['foto_url'];
+        $caminhoBackup = $backupDir . $nomeArquivo;
+        $caminhoAprovado = $aprovadosDir . $nomeArquivo;
 
-        // 3. Cria a pasta de aprovados se não existir
-        if (!file_exists($destinoDir)) {
-            if (!mkdir($destinoDir, 0755, true)) {
-                error_log("Falha ao criar diretório: " . $destinoDir);
-                return false;
-            }
+        // Verificação tripla de segurança
+        if (!file_exists($caminhoBackup)) {
+            throw new Exception("Arquivo backup não encontrado");
         }
 
-        $destino = $destinoDir . $pedido['foto_url'];
+        // Tenta até 3 vezes copiar o arquivo
+        $tentativas = 0;
+        $copiado = false;
 
-        // 4. Verifica se o arquivo de origem existe
-        if (!file_exists($origem)) {
-            error_log("Arquivo original não encontrado: " . $origem);
-            return false;
+        while ($tentativas < 3 && !$copiado) {
+            $tentativas++;
+            $copiado = copy($caminhoBackup, $caminhoAprovado);
+            if (!$copiado) sleep(1); // Espera 1 segundo entre tentativas
         }
 
-        // 5. Primeiro cria o registro no banco
+        if (!$copiado) {
+            throw new Exception("Falha ao copiar após 3 tentativas");
+        }
+
+        // Registra no banco de dados
         $upload = new Upload();
         $upload->setUsuarioId($pedido['id_usuario']);
         $upload->setTipo($pedido['tipo']);
         $upload->setDataUpload(date('Y-m-d H:i:s'));
         $upload->setDescricao($pedido['descricao']);
         $upload->setLikes(0);
-        $upload->setFotoUrl($pedido['foto_url']);
+        $upload->setFotoUrl($nomeArquivo);
 
-        if ($this->uploadDAO->criarUpload($upload)) {
-            // 6. Move o arquivo após sucesso no banco
-            if (rename($origem, $destino)) {
-                // 7. Atualiza status do pedido
-                if ($this->pedidoUploadDAO->atualizarStatus($id_pedido, 'aprovado')) {
-                    return true;
-                } else {
-                    error_log("Falha ao atualizar status do pedido: " . $id_pedido);
-                    // Reverte a movimentação do arquivo se falhar
-                    rename($destino, $origem);
-                }
-            } else {
-                error_log("Falha ao mover arquivo: " . error_get_last()['message']);
-            }
-
-            // Se chegar aqui, algo falhou - remove o upload criado
-            $this->uploadDAO->removerUpload($upload->getIdUpload());
+        if (!$this->uploadDAO->criarUpload($upload)) {
+            unlink($caminhoAprovado); // Remove se falhar no banco
+            throw new Exception("Falha ao registrar upload");
         }
 
-        return false;
+        // Atualiza status do pedido
+        if (!$this->pedidoUploadDAO->atualizarStatus($id_pedido, 'aprovado')) {
+            throw new Exception("Falha ao atualizar status");
+        }
+
+        return true;
     }
 }

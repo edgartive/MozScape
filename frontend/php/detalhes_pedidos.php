@@ -1,82 +1,81 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Verifica se o usuário está logado como administrador
-if (!isset($_SESSION['id_admin']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    die("Acesso negado. Você não tem permissão para acessar esta página.");
-}
-
-require_once __DIR__ . '/../../backend/app/controller/PedidoParaUploaderController.php';
 require_once __DIR__ . '/../../backend/app/core/Database.php';
+require_once __DIR__ . '/../../backend/app/controller/PedidoUploadController.php';
 
-$id_pedido = $_GET['id_pedido'] ?? null;
-if (!$id_pedido) {
-    die("ID do pedido inválido.");
+// Verifica admin
+if ($_SESSION['tipo_usuario'] !== 'admin') {
+    header("Location: /login.php");
+    exit;
 }
 
 $db = (new Database())->getConnection();
-$pedidoUploaderController = new PedidoUploaderController($db);
+$pedidoUploadController = new PedidoUploadController($db);
 
-// Busca o pedido por ID
-$pedido = $pedidoUploaderController->buscarPedidoPorId($id_pedido);
-if (!$pedido) {
-    die("Pedido não encontrado.");
+// Obtém ID do pedido
+$id_pedido = $_GET['id'] ?? 0;
+$detalhes = $pedidoUploadController->buscarPedidoPorId($id_pedido);
+
+if (!$detalhes) {
+    die("Pedido não encontrado");
 }
 
-// Processa a ação de aceitar ou rejeitar o pedido
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $acao = $_POST['acao'] ?? null;
-    if ($acao === 'aceitar' || $acao === 'rejeitar') {
-        $status = ($acao === 'aceitar') ? 'aprovado' : 'recusado';
-        $id_usuario = $pedido['id_usuario']; // Obtém o ID do usuário associado ao pedido
-
-        if ($pedidoUploaderController->atualizarStatus($id_pedido, $status, $id_usuario)) {
-            header("Location: ver_pedidos.php");
-            exit;
-        } else {
-            die("Erro ao processar a ação.");
-        }
-    }
-}
+$pedido = $detalhes['pedido'];
+$autor = $detalhes['autor'];
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Pedido</title>
-    <link rel="stylesheet" href="../css/detalhes_pedido.css"> <!-- Seu CSS aqui -->
+    <title>Detalhes do Pedido #<?= $pedido['id_pedido'] ?></title>
     <style>
-        /* Estilos CSS aqui */
+        .detalhes-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .imagem-pedido {
+            max-width: 100%;
+            height: auto;
+            margin-top: 15px;
+        }
+
+        .acoes {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
     <div class="detalhes-container">
-        <h2>Detalhes do Pedido #<?= htmlspecialchars($pedido['id_pedido']) ?></h2>
+        <h1>Pedido #<?= $pedido['id_pedido'] ?></h1>
 
-        <!-- Foto -->
-        <div class="foto">
-            <img src="../uploads/upload_pedido/<?= htmlspecialchars($pedido['foto_url']) ?>" alt="Foto">
+        <p><strong>Autor:</strong> <?= htmlspecialchars($autor['nome_completo']) ?></p>
+        <p><strong>Data:</strong> <?= $pedido['data_pedido'] ?></p>
+        <p><strong>Status:</strong> <?= ucfirst($pedido['status']) ?></p>
+        <p><strong>Categoria:</strong> <?= ucfirst($pedido['tipo']) ?></p>
+        <p><strong>Descrição:</strong></p>
+        <p><?= nl2br(htmlspecialchars($pedido['descricao'])) ?></p>
+
+        <div class="imagem-container">
+            <p><strong>Imagem:</strong></p>
+            <img src="/uploads/pedidos/<?= $pedido['foto_url'] ?>"
+                alt="Imagem do pedido"
+                class="imagem-pedido">
         </div>
 
-        <!-- Informações do pedido -->
-        <div class="info">
-            <p><strong>Data do Pedido:</strong> <?= htmlspecialchars($pedido['data_pedido']) ?></p>
-            <p><strong>Link da Rede Social:</strong> <a href="<?= htmlspecialchars($pedido['link_rede_social']) ?>" target="_blank"><?= htmlspecialchars($pedido['link_rede_social']) ?></a></p>
-            <p><strong>Frase Favorita:</strong> <?= htmlspecialchars($pedido['frase_favorita'] ?? '') ?></p>
-            <p><strong>Status:</strong> <span class="status <?= htmlspecialchars($pedido['status']) ?>"><?= htmlspecialchars($pedido['status']) ?></span></p>
-        </div>
-
-        <!-- Botões de Ação -->
-        <form method="POST" class="acoes">
-            <button type="submit" name="acao" value="aceitar" class="aceitar">Aceitar</button>
-            <button type="submit" name="acao" value="rejeitar" class="rejeitar">Rejeitar</button>
-        </form>
+        <?php if ($pedido['status'] === 'pendente'): ?>
+            <div class="acoes">
+                <a href="aprovar_pedido.php?id=<?= $pedido['id_pedido'] ?>"
+                    class="btn-aprovar">Aprovar</a>
+                <a href="recusar_pedido.php?id=<?= $pedido['id_pedido'] ?>"
+                    class="btn-recusar">Recusar</a>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 

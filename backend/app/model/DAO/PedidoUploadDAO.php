@@ -55,13 +55,17 @@ class PedidoUploadDAO
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
     public function buscarPedidoPorId($id_pedido)
     {
-        $query = "SELECT * FROM PedidosUpload WHERE id_pedido = :id_pedido";
+        $query = "SELECT p.*, u.nome_completo as autor_nome 
+              FROM PedidosUpload p
+              JOIN usuarios u ON p.id_usuario = u.id_usuario
+              WHERE p.id_pedido = :id_pedido";
+
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':id_pedido', $id_pedido, PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -78,21 +82,26 @@ class PedidoUploadDAO
 
     public function buscarTodosPedidos()
     {
-        $query = "SELECT * FROM pedidosUpload 
-                 ORDER BY data_pedido DESC";
-
-
-
-
-
-
-
-
-
-
-
+        $query = "SELECT p.*, u.nome_completo as autor 
+              FROM PedidosUpload p
+              JOIN usuarios u ON p.id_usuario = u.id_usuario
+              ORDER BY p.data_pedido DESC";
 
         $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function buscarPedidosPorStatus($status)
+    {
+        $query = "SELECT p.*, u.nome_completo as autor 
+              FROM PedidosUpload p
+              JOIN usuarios u ON p.id_usuario = u.id_usuario
+              WHERE p.status = :status
+              ORDER BY p.data_pedido DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
