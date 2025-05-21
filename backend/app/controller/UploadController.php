@@ -9,21 +9,36 @@ class UploadController
     private $uploadDAO;
     private $db;
     private $pedidoUploadDAO;
+    public function usuarioJaCurtiu1($id_upload, $usuario_id)
+    {
+        return $this->uploadDAO->usuarioJaCurtiu($id_upload, $usuario_id);
+    }
+    public function usuarioJaCurtiu($id_upload, $id_usuario)
+    {
+        return $this->uploadDAO->usuarioJaCurtiu($id_upload, $id_usuario);
+    }
+    public function curtirUpload($id_upload)
+    {
+        if (!isset($_SESSION['id_usuario'])) {
+            return json_encode(['success' => false, 'message' => 'Não logado']);
+        }
 
+        $id_usuario = $_SESSION['id_usuario'];
+        $result = $this->uploadDAO->curtirUpload($id_upload, $id_usuario);
+
+        header('Content-Type: application/json');
+        echo json_encode($result);
+        exit;
+    }
     public function __construct($db)
     {
+        $this->db = $db;
         $this->uploadDAO = new UploadDAO($db);
         $this->pedidoUploadDAO = new PedidoUploadDAO($db);
-        $this->uploadDAO = new UploadDAO($db);
-        $this->uploadDAO = new UploadDAO($db);
     }
     public function buscarUploadPorId($id_upload)
     {
-        $query = "SELECT * FROM uploads WHERE id = :id_upload";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':id_upload', $id_upload, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->uploadDAO->buscarUploadPorId($id_upload);
     }
 
     public function criarUpload($usuario_id, $tipo, $data_upload, $descricao, $likes, $foto_url)
@@ -67,10 +82,30 @@ class UploadController
         }
         return false;
     }
-    public function curtirUpload($id_upload)
+    public function curtirUpload2($id_upload)
     {
-        return $this->uploadDAO->curtirUpload($id_upload);
+        if (!isset($_SESSION['id_usuario'])) {
+            return false;
+        }
+
+        $id_usuario = $_SESSION['id_usuario'];
+        return $this->uploadDAO->curtirUpload($id_upload, $id_usuario);
     }
+    public function buscarUploadPorId3($id_upload)
+    {
+        $query = "SELECT u.*, us.nome_completo as autor_nome 
+                  FROM uploads u
+                  JOIN usuarios us ON u.usuario_id = us.id_usuario
+                  WHERE u.id = :id_upload";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id_upload', $id_upload, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
     public function pesquisarUploads($termo)
     {
         $query = "SELECT u.* FROM UPLOAD u
@@ -107,64 +142,19 @@ class UploadController
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function criarUploadAprovado($id_pedido)
+
+    public function buscarFotografoComMaisUploads()
     {
-        $baseDir = realpath(__DIR__ . '/../../') . '/';
-        $backupDir = $baseDir . 'uploads/backups/';
-        $aprovadosDir = $baseDir . 'uploads/aprovados/';
+        return $this->uploadDAO->buscarFotografoComMaisUploads();
+    }
 
-        // Garante diretório de aprovados
-        if (!file_exists($aprovadosDir)) {
-            mkdir($aprovadosDir, 0755, true);
-        }
+    public function buscarFotoComMaisLikes()
+    {
+        return $this->uploadDAO->buscarFotoComMaisLikes();
+    }
 
-        $pedido = $this->pedidoUploadDAO->buscarPedidoPorId($id_pedido);
-        if (!$pedido) {
-            throw new Exception("Pedido não encontrado");
-        }
-
-        $nomeArquivo = $pedido['foto_url'];
-        $caminhoBackup = $backupDir . $nomeArquivo;
-        $caminhoAprovado = $aprovadosDir . $nomeArquivo;
-
-        // Verificação tripla de segurança
-        if (!file_exists($caminhoBackup)) {
-            throw new Exception("Arquivo backup não encontrado");
-        }
-
-        // Tenta até 3 vezes copiar o arquivo
-        $tentativas = 0;
-        $copiado = false;
-
-        while ($tentativas < 3 && !$copiado) {
-            $tentativas++;
-            $copiado = copy($caminhoBackup, $caminhoAprovado);
-            if (!$copiado) sleep(1); // Espera 1 segundo entre tentativas
-        }
-
-        if (!$copiado) {
-            throw new Exception("Falha ao copiar após 3 tentativas");
-        }
-
-        // Registra no banco de dados
-        $upload = new Upload();
-        $upload->setUsuarioId($pedido['id_usuario']);
-        $upload->setTipo($pedido['tipo']);
-        $upload->setDataUpload(date('Y-m-d H:i:s'));
-        $upload->setDescricao($pedido['descricao']);
-        $upload->setLikes(0);
-        $upload->setFotoUrl($nomeArquivo);
-
-        if (!$this->uploadDAO->criarUpload($upload)) {
-            unlink($caminhoAprovado); // Remove se falhar no banco
-            throw new Exception("Falha ao registrar upload");
-        }
-
-        // Atualiza status do pedido
-        if (!$this->pedidoUploadDAO->atualizarStatus($id_pedido, 'aprovado')) {
-            throw new Exception("Falha ao atualizar status");
-        }
-
-        return true;
+    public function buscarTopFotografos($limit = 5)
+    {
+        return $this->uploadDAO->buscarTopFotografos($limit);
     }
 }

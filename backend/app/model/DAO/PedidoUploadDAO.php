@@ -55,6 +55,17 @@ class PedidoUploadDAO
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function buscarTodosPedidosComUsuarios()
+    {
+        $query = "SELECT p.*, u.nome_completo 
+                  FROM PedidosUpload p
+                  JOIN usuarios u ON p.id_usuario = u.id_usuario
+                  ORDER BY p.data_pedido DESC";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function buscarPedidoPorId($id_pedido)
     {
         $query = "SELECT p.*, u.nome_completo as autor_nome 

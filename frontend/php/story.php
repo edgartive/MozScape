@@ -5,13 +5,13 @@ ini_set('display_errors', 1);
 
 // Verifica se o usuário está logado
 if (!isset($_SESSION['id_usuario'])) {
- 
-//header('Location:index.pg')
+
+    //header('Location:index.pg')
 
     //  die("Acesso negado. Faça login para continuar.");
 }
 
- require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
+require_once __DIR__ . '/../../backend/app/controller/UsuarioController.php';
 require_once __DIR__ . '/../../backend/app/core/Database.php';
 
 $id_usuario = $_SESSION['id_usuario'];
@@ -33,7 +33,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
     <link rel="stylesheet" href="../css/story.css">
     <link rel="stylesheet" href="../fontes/webfonts/css/all.css">
     <style>
-     </style>
+    </style>
 </head>
 
 <body>
@@ -41,7 +41,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
     <body>
         <header>
             <h2 style="text-align: center;"> </h2>
-            <a href="index.html">
+            <a href="index.php">
                 <div id="back-home" style="position: absolute; top: 10px; left: 10px;
             display: flex;
             align-items: center;
@@ -55,7 +55,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
             <div class="perfil-usuario">
                 <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
                 <select id="opcoes" name="categoria">
-                    <option value=""></option>  
+                    <option value=""></option>
                     <option value="visaoPerfil.php">Meu perfil</option>
                     <option value="favoritosECollections.php">Favoritos</option>
                     <option value="definicoes.php">Definições</option>
@@ -111,7 +111,7 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
 
             </form>
         </section>
-
+        <h1>Ainda em desenvolvimento...</h1>
 
 
         <section class="categorias-destaque">
@@ -213,11 +213,11 @@ $uploader = $usuario['uploader'] ?? 0; // Valor padrão é 0 se não existir
         </section>
 
         <footer>
-            <p>&copy; 2024 Pain Designer</p>
+            <p>&copy; 2024 Mozscape</p>
         </footer>
 
         <script>
-             function pesquisarCategoria() {
+            function pesquisarCategoria() {
                 var input = document.getElementById('pesquisa').value.toLowerCase();
                 var categorias = document.querySelectorAll('.categoria');
 

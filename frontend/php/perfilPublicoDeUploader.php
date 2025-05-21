@@ -47,7 +47,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Paisagens do Meu País. Todos os direitos reservados.</p>
+        <p>&copy; 2024 MozScape. Todos os direitos reservados.</p>
     </footer>
 
     <script src="../js/perfilUploader.js"></script>

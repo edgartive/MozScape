@@ -51,7 +51,7 @@
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 Pain Designer</p>
+        <p>&copy; 2024 MozScape</p>
     </footer>
 </body>
 

@@ -23,6 +23,7 @@ $pedidos = $pedidoController->buscarPedidosPorUsuario($_SESSION['id_usuario']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Pedidos</title>
+    <link rel="stylesheet" href="../css/upload.css">
     <style>
         table {
             width: 100%;

@@ -119,13 +119,7 @@ body::before {
 }
 
 
-/* Efeito ao passar o mouse */
-.btn:hover {
-
-    box-shadow: 0 0 15px rgb(0, 155, 225);
-    /* Glow verde */
-}
-
+.b
 
 /* Reseta as margens e fontes dos elementos padrão */
 h1,
@@ -197,7 +191,7 @@ header {
     transition: background-color 0.3s;
 }
 
-.hero .btn:hover {
+.hero {
     background-color: var(--hover-color);
 }
 

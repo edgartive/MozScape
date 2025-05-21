@@ -29,6 +29,7 @@ $autor = $detalhes['autor'];
 
 <head>
     <title>Detalhes do Pedido #<?= $pedido['id_pedido'] ?></title>
+    <link rel="stylesheet" href="../css/uploadOverview.css">
     <style>
         .detalhes-container {
             max-width: 800px;
@@ -39,7 +40,7 @@ $autor = $detalhes['autor'];
         }
 
         .imagem-pedido {
-            max-width: 100%;
+            max-width: 30%;
             height: auto;
             margin-top: 15px;
         }
@@ -63,7 +64,7 @@ $autor = $detalhes['autor'];
 
         <div class="imagem-container">
             <p><strong>Imagem:</strong></p>
-            <img src="/uploads/pedidos/<?= $pedido['foto_url'] ?>"
+            <img src="../../backend/uploads/pedidos/<?= $pedido['foto_url'] ?>"
                 alt="Imagem do pedido"
                 class="imagem-pedido">
         </div>

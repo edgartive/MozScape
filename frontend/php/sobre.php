@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós</title>
     <link rel="icon" href="images/sea.png" type="image/png">
-    <link rel="stylesheet" href="sobre.css">
+    <link rel="stylesheet" href="../css/sobre.css">
 </head>
 
 <body>
     <header>
-        <h2 style="text-align: center;">   </h2>
+        <h2 style="text-align: center;"> </h2>
         <a href="index.html">
             <div id="back-home" style="position: absolute; top: 10px; left: 10px;
             display: flex;
@@ -27,14 +27,7 @@
             <div class="foto-perfil" style="background-image: url('images/perfil.png');"></div>
             <label id="username">Pain 29</label>
         </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="categorias.html">Categorias</a></li>
-                <li><a href="sobre.html" id="destacar" class="active">Sobre</a></li>
-                <li><a href="contacto.html">Contactos</a></li>
-            </ul>
-        </nav>
+
     </header>
 
     <main>
@@ -67,7 +60,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Pain Designer</p>
+        <p>&copy; 2024 MozScape</p>
     </footer>
 </body>
 

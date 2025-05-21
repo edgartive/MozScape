@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manual de Instruções</title>
     <link rel="stylesheet" href="../css/manual.css">
+    <link rel="stylesheet" href="../css/hallFama.css">
 </head>
 
 <body>
@@ -46,7 +47,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 Paisagens do Meu País. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Mozscape. Todos os direitos reservados.</p>
     </footer>
 
     <script src="../js/manual.js"></script>

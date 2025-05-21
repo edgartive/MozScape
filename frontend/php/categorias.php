@@ -61,6 +61,7 @@ if (isset($_SESSION['id_usuario'])) {
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
+            cursor: pointer;
         }
 
         .upload-card:hover {
@@ -71,7 +72,6 @@ if (isset($_SESSION['id_usuario'])) {
             width: 100%;
             height: 250px;
             object-fit: cover;
-            cursor: pointer;
         }
 
         .upload-info {
@@ -98,6 +98,25 @@ if (isset($_SESSION['id_usuario'])) {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 20px;
+        }
+
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn-like.disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .pesquisa-container {
@@ -129,6 +148,33 @@ if (isset($_SESSION['id_usuario'])) {
             gap: 5px;
         }
 
+        .imagem-placeholder {
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .imagem-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .sem-uploads {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .sem-uploads i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 900px) {
             .galeria-container {
                 grid-template-columns: repeat(2, 1fr);
@@ -145,8 +191,7 @@ if (isset($_SESSION['id_usuario'])) {
 
 <body>
     <header>
-        <h2 style="text-align: center;">Galeria Pública</h2>
-        <a href="index.php">
+        <h3></h3> <a href="index.php">
             <div id="back-home" style="position: absolute; top: 10px; left: 10px;
             display: flex;
             align-items: center;
@@ -206,27 +251,27 @@ if (isset($_SESSION['id_usuario'])) {
 
                 <?php if ($uploader == 1): ?>
                     <a href="upload.php" class="upload-btn">
-                        <i class="fas fa-upload"></i> Upload
+                        <i class="fas fa-upload"></i>
                     </a>
                 <?php endif; ?>
             </div>
         </form>
     </section>
+
     <!-- Galeria de Uploads -->
     <section class="galeria-container">
         <?php
-        $ids_exibidos = []; // Para evitar duplicações
+        $ids_exibidos = [];
 
         foreach ($uploads as $upload):
-            // Evita duplicações
             if (in_array($upload['id_upload'], $ids_exibidos)) continue;
             $ids_exibidos[] = $upload['id_upload'];
 
             $autor = $usuarioController->buscarUsuarioPorId($upload['id_usuario']);
-            $caminho_foto = '../../uploads/aprovados/' . $upload['foto_url'];
-            $caminho_absoluto = $_SERVER['DOCUMENT_ROOT'] . '/uploads/aprovados/' . $upload['foto_url'];
+            $caminho_foto = '../uploads/aprovado/' . $upload['foto_url'];
+            $caminho_absoluto = $_SERVER['DOCUMENT_ROOT'] . '/MozScape/frontend/uploads/aprovado/' . $upload['foto_url'];
         ?>
-            <div class="upload-card">
+            <div class="upload-card" onclick="window.location.href='detalhes_upload.php?id=<?= $upload['id_upload'] ?>'">
                 <?php if (file_exists($caminho_absoluto)): ?>
                     <img src="<?= $caminho_foto ?>"
                         alt="<?= htmlspecialchars($upload['descricao']) ?>"
@@ -240,21 +285,13 @@ if (isset($_SESSION['id_usuario'])) {
                 <?php endif; ?>
 
                 <div class="upload-info">
-                    <div class="upload-meta">
-                        <span class="upload-autor">
-                            <i class="fas fa-user"></i>
-                            <?= htmlspecialchars($autor['nome_completo'] ?? 'Desconhecido') ?>
-                        </span>
-
-                        <span class="upload-categoria">
-                            <i class="fas fa-tag"></i>
-                            <?= ucfirst(htmlspecialchars($upload['tipo'])) ?>
-                        </span>
+                    <div class="upload-autor" style="color: black;">
+                        <?= htmlspecialchars($autor['nome_completo'] ?? 'Desconhecido') ?>
                     </div>
-
-                    <div class="upload-likes">
+                    <p><?= htmlspecialchars($upload['descricao']) ?></p>
+                    <div style="color: black;" class="upload-likes">
                         <i class="fas fa-heart"></i>
-                        <?= htmlspecialchars($upload['likes'] ?? 0) ?> curtidas
+                        <?= $upload['likes'] ?> likes
                     </div>
                 </div>
             </div>
@@ -263,10 +300,11 @@ if (isset($_SESSION['id_usuario'])) {
         <?php if (empty($uploads)): ?>
             <div class="sem-uploads">
                 <i class="fas fa-camera"></i>
-                <p>Nenhuma foto disponível na galeria</p>
+                <p>Nenhuma foto encontrada na galeria.</p>
             </div>
         <?php endif; ?>
     </section>
+
     <!-- Rodapé -->
     <footer>
         <p>&copy; 2024 - Mozscape</p>

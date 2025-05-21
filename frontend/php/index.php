@@ -16,7 +16,7 @@
 <body>
     <header>
         <h2 style="text-align: center;"> </h2>
-        <a href="index.html">
+        <a href="#">
             <div class="back-home" style="position: absolute; top: 10px; left: 10px;
           
             align-items: center;
@@ -38,6 +38,8 @@
                 <option value="uploaderrequest.php">Ser uploader</option>
                 <option value="ajuda_faq.php">Ajuda</option>
                 <option value="contacto.php">Contactos</option>
+                <option value="sobre.php">Sobre</option>
+
                 <option value="manual.php">Manual de instruções</option>
 
                 <option value="logout.php">Sair</option>
@@ -71,7 +73,7 @@
         <section class="hero">
             <h2 class="descubra">Descubra a beleza do nosso país através das lentes!</h2>
             <h3>Descarregue as fotografias de paisagem deslumbrantes em alta resolução</h3>
-            <a href="categorias.html" class="btn">Explorar Fotog afias</a>
+            <a href="categorias.html" class="btn">Explorar Fotografias</a>
         </section>
 
         <section class="categorias-destaque">

@@ -22,8 +22,8 @@
             </li>
             <li class="admin-item">
                 <i class="fas fa-file-upload"></i>
-                <span>Gerenciar Uploads</span>
-                <button class="action-button" onclick="navigateTo('admin_pedidos.php')">Acessar</button>
+                <span>Gerenciar Uploads</span><a href="admin_pedidos.php">
+                    <button class="action-button" onclick="navigateTo('admin_pedidos.php')">Acessar</button></a>
             </li>
             <li class="admin-item">
                 <i class="fas fa-user-check"></i>

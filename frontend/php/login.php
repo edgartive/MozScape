@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt">
+<?php
+session_start();
+if (isset($_SESSION['user_id'])) {
+    $redirect = isset($_SESSION['last_page']) ? $_SESSION['last_page'] : '../index.php';
+    echo "<script>window.location.href = '$redirect';</script>";
+    exit;
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -43,7 +51,7 @@
     </main>
 
     <footer>
-        <p>© 2024 - Todos os direitos reservados</p>
+        <p>© 2024 Mozscape - Todos os direitos reservados</p>
     </footer>
 </body>
 
