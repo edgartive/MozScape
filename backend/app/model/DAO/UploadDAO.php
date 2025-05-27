@@ -46,10 +46,38 @@ class UploadDAO
 
         return $stmt->execute();
     }
+    public function removerLike($id_upload, $id_usuario)
+    {
+        $this->db->beginTransaction();
 
+        try {
+            // Remove o registro de like
+            $stmt = $this->db->prepare("DELETE FROM upload_likes WHERE id_upload = ? AND id_usuario = ?");
+            $stmt->execute([$id_upload, $id_usuario]);
+
+            // Atualiza o contador de likes
+            $stmt = $this->db->prepare("UPDATE uploads SET likes = GREATEST(likes - 1, 0) WHERE id_upload = ?");
+            $stmt->execute([$id_upload]);
+
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("Erro ao remover like: " . $e->getMessage());
+            return false;
+        }
+    }
     public function listarUploads()
     {
         $query = "SELECT * FROM UPLOADs ORDER BY data_upload DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function listarUploadsPorIDUsuario($id_usuario)
+    {
+        $query = "SELECT * FROM UPLOADs  WHERE id_usuario = $id_usuario ORDER BY data_upload DESC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -2,7 +2,8 @@
 <html lang="pt">
 <?php
 session_start();
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['id_usuario'])) {
+    // Se o usuário já estiver logado, redireciona para a última página visitada ou para a página inicial
     $redirect = isset($_SESSION['last_page']) ? $_SESSION['last_page'] : '../index.php';
     echo "<script>window.location.href = '$redirect';</script>";
     exit;

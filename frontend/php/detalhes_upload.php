@@ -31,88 +31,77 @@ if (!$upload) {
 
 // Busca informações do autor
 $autor = $usuarioController->buscarUsuarioPorId($upload['id_usuario']);
-// Gera o caminho da foto usando o user id e o nome da foto
-$caminho_foto = '/backend/uploads/aprovados/' . $upload['id_usuario'] . '/' . $upload['foto_url'];
+
+// Define caminhos padrão
+$base_upload_path = '/backend/uploads/aprovados/';
+$caminho_foto = $base_upload_path . $upload['id_usuario'] . '/' . $upload['foto_url'];
 $caminho_absoluto = $_SERVER['DOCUMENT_ROOT'] . $caminho_foto;
 
 // Verifica sessão e likes
 $isLoggedIn = isset($_SESSION['id_usuario']);
 $usuarioId = $isLoggedIn ? $_SESSION['id_usuario'] : null;
 $jaCurtiu = $isLoggedIn ? $uploadController->usuarioJaCurtiu($id_upload, $usuarioId) : false;
-// Processar like
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'like') {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    // Atualiza $jaCurtiu após possível like/unlike via AJAX
+    $jaCurtiu = $isLoggedIn ? $uploadController->usuarioJaCurtiu($id_upload, $usuarioId) : false;
+}
+// Processar like/unlike
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action'])) {
     header('Content-Type: application/json');
-    require_once __DIR__ . '/../../backend/app/controller/UploadController.php';
-    $db = (new Database())->getConnection();
-    $controller = new UploadController($db);
 
+    $action = $_GET['action'];
     $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     $usuarioId = isset($_SESSION['id_usuario']) ? $_SESSION['id_usuario'] : null;
 
     if (!$usuarioId) {
-        echo json_encode(['success' => false, 'message' => 'Você precisa estar logado para curtir.']);
+        echo json_encode(['success' => false, 'message' => 'Você precisa estar logado para esta ação.']);
         exit;
     }
 
-    $result = $controller->curtirUpload($id, $usuarioId);
+    if ($action === 'like') {
+        $result = $uploadController->curtirUpload($id, $usuarioId);
+    } elseif ($action === 'unlike') {
+        $result = $uploadController->removerLike($id, $usuarioId);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Ação inválida.']);
+        exit;
+    }
 
     if ($result) {
         // Buscar o novo número de likes
-        $upload = $controller->buscarUploadPorId($id);
+        $upload = $uploadController->buscarUploadPorId($id);
         $likes = $upload ? $upload['likes'] : 0;
-        echo json_encode(['success' => true, 'likes' => $likes]);
+        echo json_encode(['success' => true, 'likes' => $likes, 'action' => $action]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Erro ao curtir.']);
+        $errorMsg = 'Erro ao processar ação.';
+        if ($action === 'unlike') {
+            $errorMsg = 'Você ainda não curtiu esta foto.';
+        } elseif ($action === 'like') {
+            $errorMsg = 'Não foi possível curtir esta foto.';
+        }
+        echo json_encode(['success' => false, 'message' => $errorMsg]);
     }
     exit;
 }
-// Processa download se for POST
 
-// Atualiza a variável $jaCurtiu após processar o like via AJAX
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'like') {
-    // O código do like já está acima, então não precisa repetir aqui.
-    // Apenas retorna após processar o like.
-    exit;
-}
-
-// Atualiza $upload e $jaCurtiu após possível like
-if ($isLoggedIn) {
-    $upload = $uploadController->buscarUploadPorId($id_upload);
-    $jaCurtiu = $uploadController->usuarioJaCurtiu($id_upload, $usuarioId);
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'download') {
-    if (!$isLoggedIn) {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => false, 'message' => 'Você precisa estar logado para baixar.']);
-        exit;
-    }
-    if (file_exists($caminho_absoluto)) {
+// Processa download
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLoggedIn) {
+    // Corrige o caminho para ser igual ao usado na exibição da foto
+    $caminho_absoluto_download = $_SERVER['DOCUMENT_ROOT'] . '/MozScape/frontend/uploads/aprovado/' . $upload['foto_url'];
+    if (file_exists($caminho_absoluto_download)) {
         // Força o download do arquivo
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($caminho_absoluto) . '"');
+        header('Content-Disposition: attachment; filename="' . basename($caminho_absoluto_download) . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($caminho_absoluto));
-        readfile($caminho_absoluto);
+        header('Content-Length: ' . filesize($caminho_absoluto_download));
+        readfile($caminho_absoluto_download);
         exit;
     } else {
         header('Content-Type: application/json');
         echo json_encode(['success' => false, 'message' => 'Arquivo não encontrado.']);
-        exit;
-    }
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLoggedIn) {
-    if (file_exists($caminho_absoluto)) {
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($caminho_absoluto) . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($caminho_absoluto));
-        readfile($caminho_absoluto);
         exit;
     }
 }
@@ -129,6 +118,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLog
     <link rel="stylesheet" href="../fontes/webfonts/css/all.css">
     <link rel="stylesheet" href="../css/styles.css">
     <style>
+        /* Estilos mantidos iguais ao original */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0a0f25;
+            color: #fff;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -319,25 +317,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLog
                 </div>
             <?php endif; ?>
         </div>
-
         <div class="info-container">
             <div class="autor-info">
                 <div class="foto-perfil"
-                    style="background-image: url('../uploads/perfil/<?= htmlspecialchars($autor['foto_de_perfil_url'] ?? 'default.jpg') ?>')">
+                    style="background-image: url('../uploads/profile_pics/<?= htmlspecialchars($autor['foto_de_perfil_url'] ?? 'default.jpg') ?>')">
                 </div>
                 <div>
                     <h2 style="margin: 0; color: #3498db;">
-                        <a href="perfilpublicodeuploader.php?id=<?= urlencode($autor['id_usuario']) ?>" style="color: #3498db; text-decoration: underline;">
+                        <a href="visaoPerfil.php?id=<?= $autor['id_usuario'] ?>" style="color: #3498db; text-decoration: none;">
                             <?= htmlspecialchars($autor['nome_completo'] ?? 'Desconhecido') ?>
                         </a>
                     </h2>
                     <small style="color: #aaa;"><?= date('d/m/Y H:i', strtotime($upload['data_upload'])) ?></small>
                 </div>
             </div>
-
-            <form method="post" id="likeForm" style="display: none;">
-                <input type="hidden" name="like" value="1">
-            </form>
 
             <form method="post" id="downloadForm" style="display: none;">
                 <input type="hidden" name="download" value="1">
@@ -353,8 +346,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLog
                 <button class="btn-acao btn-voltar" onclick="window.history.back()">
                     <i class="fas fa-arrow-left"></i> Voltar
                 </button>
-                <button class="btn-acao btn-like" id="btnLike" <?= $jaCurtiu ? 'disabled' : '' ?>>
-                    <i class="fas fa-heart"></i> <?= $jaCurtiu ? 'Você curtiu' : 'Curtir' ?>
+                <button class="btn-acao btn-like" id="btnLike" <?= $jaCurtiu ? 'data-liked="true"' : '' ?>>
+                    <i class="fas fa-heart"></i> <?= $jaCurtiu ? 'Curtido' : 'Curtir' ?>
                 </button>
                 <button class="btn-acao btn-download" id="btnDownload">
                     <i class="fas fa-download"></i> Baixar
@@ -362,30 +355,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLog
             </div>
         </div>
     </div>
+
     <script>
-        // Corrige o caminho da foto do perfil e da foto do post caso estejam quebrados
+        // Foto do perfil - tratamento de erro
         document.addEventListener('DOMContentLoaded', function() {
-            // Foto do perfil
             const perfilDiv = document.querySelector('.foto-perfil');
             if (perfilDiv) {
-                // Atualiza o caminho para a nova pasta
-                let url = perfilDiv.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-                // Se o caminho não começar com '../uploads/profile_pics/', corrige
-                if (!url.includes('uploads/profile_pics/')) {
-                    url = url.replace('uploads/perfil/', 'uploads/profile_pics/');
-                    perfilDiv.style.backgroundImage = `url('${url}')`;
-                }
                 const img = new Image();
-                img.onload = function() {
-                    // ok
-                };
                 img.onerror = function() {
                     perfilDiv.style.backgroundImage = "url('../uploads/profile_pics/default.jpg')";
                 };
-                img.src = url;
+                img.src = perfilDiv.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
             }
 
-            // Foto do post
+            // Foto do post - tratamento de erro
             const fotoDetalhes = document.querySelector('.foto-detalhes');
             if (fotoDetalhes) {
                 fotoDetalhes.onerror = function() {
@@ -396,47 +379,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['download']) && $isLog
                     fotoDetalhes.parentNode.appendChild(placeholder);
                 };
             }
+
+            // Configuração inicial do botão de like
+            const btnLike = document.getElementById('btnLike');
+            if (btnLike && btnLike.dataset.liked === 'true') {
+                btnLike.style.backgroundColor = '#3498db';
+            }
         });
-    </script>
-    <script>
+
+        // Like/Unlike
         document.getElementById('btnLike').addEventListener('click', async function(e) {
             e.preventDefault();
             const btn = this;
-            const likesCounter = document.querySelector('.upload-likes');
+            const jaCurtiu = btn.dataset.liked === 'true';
+            const action = jaCurtiu ? 'unlike' : 'like';
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
 
             try {
-                const response = await fetch('detalhes_upload.php?action=like&id=<?= $id_upload ?>', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'like=true'
+                const response = await fetch(`detalhes_upload.php?action=${action}&id=<?= $id_upload ?>`, {
+                    method: 'POST'
                 });
 
                 const data = await response.json();
 
                 if (data.success) {
-                    // Atualiza visualmente
-                    if (likesCounter) {
-                        likesCounter.innerHTML = `<i class="fas fa-heart"></i> ${data.likes} likes`;
+                    // Atualiza o contador de likes
+                    document.querySelector('.upload-likes').innerHTML = `<i class="fas fa-heart"></i> ${data.likes} likes`;
+
+                    // Atualiza o botão
+                    if (action === 'like') {
+                        btn.innerHTML = '<i class="fas fa-heart"></i> Curtido';
+                        btn.style.backgroundColor = '#3498db';
+                        btn.dataset.liked = 'true';
+                    } else {
+                        btn.innerHTML = '<i class="fas fa-heart"></i> Curtir';
+                        btn.style.backgroundColor = '#ff4757';
+                        btn.dataset.liked = 'false';
                     }
-                    btn.innerHTML = '<i class="fas fa-heart"></i> Curtido';
-                    btn.style.backgroundColor = '#3498db';
-                    btn.disabled = true;
+                    btn.disabled = false;
                 } else {
                     alert(data.message);
-                    btn.disabled = data.message && data.message.includes('curtiu') ? true : false;
-                    btn.innerHTML = '<i class="fas fa-heart"></i> Curtir';
+                    // Restaura o botão para o estado anterior
+                    if (jaCurtiu) {
+                        btn.innerHTML = '<i class="fas fa-heart"></i> Curtido';
+                        btn.style.backgroundColor = '#3498db';
+                        btn.dataset.liked = 'true';
+                    } else {
+                        btn.innerHTML = '<i class="fas fa-heart"></i> Curtir';
+                        btn.style.backgroundColor = '#ff4757';
+                        btn.dataset.liked = 'false';
+                    }
+                    btn.disabled = false;
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao curtir. Tente novamente.');
+                alert('Erro ao processar. Tente novamente.');
+                // Restaura o botão para o estado anterior em caso de erro
+                if (jaCurtiu) {
+                    btn.innerHTML = '<i class="fas fa-heart"></i> Curtido';
+                    btn.style.backgroundColor = '#3498db';
+                    btn.dataset.liked = 'true';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-heart"></i> Curtir';
+                    btn.style.backgroundColor = '#ff4757';
+                    btn.dataset.liked = 'false';
+                }
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-heart"></i> Curtir';
             }
+        });
+
+        // Download
+        document.getElementById('btnDownload').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('downloadForm').submit();
         });
     </script>
 </body>
