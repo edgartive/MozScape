@@ -24,9 +24,9 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
     <title>Hall da Fama - Mozscape</title>
     <link rel="stylesheet" href="../css/hallFama.css">
     <link rel="stylesheet" href="../css/categorias.css">
-    <link rel="stylesheet" href="../fontes/webfonts/css/all.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
+
 <style>
     :root {
         --cor-primaria: #3498db;
@@ -103,6 +103,7 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
         border-radius: 8px;
         margin: 15px 0;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
     }
 
     .stats {
@@ -158,15 +159,26 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
         background-size: cover;
         background-position: center;
         margin-right: 15px;
+        cursor: pointer;
     }
 
     .top-fotografo .nome {
         flex-grow: 1;
+        cursor: pointer;
     }
 
     .top-fotografo .uploads {
         color: var(--cor-secundaria);
         font-weight: bold;
+    }
+
+    .autor-link {
+        color: var(--cor-primaria);
+        text-decoration: none;
+    }
+
+    .autor-link:hover {
+        text-decoration: underline;
     }
 
     @media (max-width: 768px) {
@@ -200,7 +212,19 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
             </div>
         </a>
         <div class="perfil-usuario">
-            <div class="foto-perfil" style="background-image: url('../images/perfil.png');"></div>
+            <?php
+            // Busca a foto do usuário logado, se houver sessão
+            $fotoPerfil = '../uploads/profile_pics/default.jpg'; // Foto padrão
+            if (isset($_SESSION['id_usuario'])) {
+                $usuario = $usuarioController->buscarUsuarioPorId($_SESSION['id_usuario']);
+                if ($usuario && !empty($usuario['foto_de_perfil_url'])) {
+                    $caminho_foto = '../uploads/profile_pics/' . htmlspecialchars($usuario['foto_de_perfil_url']);
+                    $caminho_absoluto = $_SERVER['DOCUMENT_ROOT'] . '/MozScape/frontend/uploads/profile_pics/' . $usuario['foto_de_perfil_url'];
+                    $fotoPerfil = file_exists($caminho_absoluto) ? $caminho_foto : '../uploads/profile_pics/default.jpg';
+                }
+            }
+            ?>
+            <div class="foto-perfil" style="width: 40px; height: 40px; border-radius: 50%; background-size: cover; background-position: center; background-image: url('<?= $fotoPerfil ?>'); margin-right: 10px;"></div>
             <select id="opcoes" name="categoria">
                 <option value=""></option> <!-- Opção padrão -->
                 <option value="visaoPerfil.php">Meu perfil</option>
@@ -209,7 +233,7 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
                 <option value="statusUpload.php">Ver pedidos</option>
                 <option value="ajuda_faq.php">Ajuda</option>
                 <option value="contacto.php">Contactos</option>
-                <option value="manual.php">Manual de instrunçoes </option>
+                <option value="manual.php">Manual de instrunçoes</option>
                 <option value="logout.php">Sair</option>
             </select>
 
@@ -234,32 +258,58 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
         </nav>
     </header>
     <div class="container">
-        <h1>🏆 Hall da Fama</h1>
+        <h1 class="hall-title">
+            <i class="fas fa-trophy" style="color: var(--cor-primaria); margin-right: 10px;"></i>
+            Hall da Fama
+        </h1>
+        <style>
+            .hall-title i {
+                transition: color 0.2s;
+            }
+
+            .hall-title:hover i {
+                color: gold !important;
+            }
+        </style>
 
         <div class="hall-grid">
             <!-- Fotógrafo com mais uploads -->
             <div class="hall-card">
-                <h2><i class="fas fa-crown"></i> Fotógrafo do Mês</h2>
+                <h2 style="color: black;">
+                    <i class="fas fa-crown" style="color: var(--cor-primaria);"></i> Fotógrafo do Mês
+                </h2>
                 <?php if ($melhorFotografo): ?>
-                    <div class="fotografo-info">
-                        <div class="fotografo-foto" style="background-image: url('../uploads/perfil/<?= htmlspecialchars($melhorFotografo['foto_de_perfil_url'] ?? 'default.jpg') ?>');"></div>
-                        <div class="fotografo-detalhes">
-                            <h3><?= htmlspecialchars($melhorFotografo['nome_completo']) ?></h3>
+                    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 15px;">
+                        <div class="fotografo-foto" style="
+                            width: 150px;
+                            height: 150px;
+                            border-radius: 18px;
+                            background-image: url('../uploads/profile_pics/<?= htmlspecialchars($melhorFotografo['foto_de_perfil_url'] ?? 'default.jpg') ?>');
+                            background-size: cover;
+                            background-position: center;
+                            margin-bottom: 15px;
+                            cursor: pointer;
+                            border: 3px solid var(--cor-primaria);
+                        " onclick="window.location.href='visaoPerfil.php?id=<?= $melhorFotografo['id_usuario'] ?>'"></div>
+                        <div class="fotografo-detalhes" style="text-align: center;">
+                            <h3>
+                                <a href="visaoPerfil.php?id=<?= $melhorFotografo['id_usuario'] ?>" class="autor-link"><?= htmlspecialchars($melhorFotografo['nome_completo']) ?></a>
+                            </h3>
                             <p>Membro desde <?= date('Y', strtotime($melhorFotografo['data_registro'] ?? 'now')) ?></p>
                         </div>
-                    </div>
-                    <div class="stats">
-                        <div class="stat">
-                            <div class="number"><?= $melhorFotografo['total_uploads'] ?></div>
-                            <div class="label">Uploads</div>
-                        </div>
-                        <div class="stat">
-                            <div class="number"><?= $melhorFotografo['total_likes'] ?? '0' ?></div>
-                            <div class="label">Likes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="number"><?= $melhorFotografo['seguidores'] ?? '0' ?></div>
-                            <div class="label">Seguidores</div>
+                        <div class="stats" style="margin-top: 15px; gap: 40px; display: flex; justify-content: center;">
+                            <div class="stat">
+                                <div class="number"><?= $melhorFotografo['total_uploads'] ?></div>
+                                <div class="label">Uploads</div>
+                            </div>
+                            <div class="stat">
+                                <div class="number"><?= $melhorFotografo['total_likes'] ?? '0' ?></div>
+                                <div class="label">Likes</div>
+                            </div>
+                            <div class="stat">
+                                <div class="number"><?= $melhorFotografo['seguidores'] ?? '0' ?></div>
+                                <div class="label">Seguidores</div>
+                            </div>
                         </div>
                     </div>
                 <?php else: ?>
@@ -268,57 +318,33 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
             </div>
 
             <!-- Foto com mais likes -->
-
             <div class="hall-card">
-                <h2><i class="fas fa-heart"></i> Foto mais gostada</h2>
-                <?php if ($fotoMaisCurtida): ?>
-                    <img src="../uploads/aprovados/<?= htmlspecialchars($fotoMaisCurtida['foto_url']) ?>" alt="<?= htmlspecialchars($fotoMaisCurtida['descricao']) ?>" class="foto-preview">
+                <h2 style="color: black;"><i class="fas fa-heart " style=" color: var(--cor-primaria);"></i> Foto mais gostada</h2>
+                <?php if ($fotoMaisCurtida):
+                    $caminho_foto = '../uploads/aprovado/' . $fotoMaisCurtida['foto_url'];
+                    $caminho_absoluto = $_SERVER['DOCUMENT_ROOT'] . '/MozScape/frontend/uploads/aprovado/' . $fotoMaisCurtida['foto_url'];
+                ?>
+                    <img src="<?= $caminho_foto ?>"
+                        alt="<?= htmlspecialchars($fotoMaisCurtida['descricao']) ?>"
+                        class="foto-preview"
+                        onclick="window.location.href='detalhes_upload.php?id=<?= $fotoMaisCurtida['id_upload'] ?>'">
                     <p style="color: #2c3e50;"><?= htmlspecialchars($fotoMaisCurtida['descricao']) ?></p>
                     <div class="stats">
                         <div class="stat">
                             <div class="number"><?= $fotoMaisCurtida['likes'] ?></div>
                             <div class="label">Likes</div>
                         </div>
-                        <div class="stat">
-                            <div class="number"><?= $fotoMaisCurtida['visualizacoes'] ?? '0' ?></div>
-                            <div class="label">Visualizações</div>
-                        </div>
+
                         <div class="stat">
                             <div class="number"><?= $fotoMaisCurtida['comentarios'] ?? '0' ?></div>
                             <div class="label">Comentários</div>
                         </div>
                     </div>
-                    <p class="autor">Por: <?= htmlspecialchars($fotoMaisCurtida['autor_nome']) ?></p>
+                    <p class="autor">Por: <a href="visaoPerfil.php?id=<?= $fotoMaisCurtida['id_usuario'] ?>" class="autor-link"><?= htmlspecialchars($fotoMaisCurtida['autor_nome']) ?></a></p>
                 <?php else: ?>
                     <p>Nenhuma foto encontrada</p>
                 <?php endif; ?>
             </div>
-
-            <!-- Foto mais baixada 
-            <div class="hall-card">
-                <h2><i class="fas fa-download"></i> Foto Mais Baixada</h2>
-                <?php if ($fotoMaisBaixada): ?>
-                    <img src="../uploads/aprovados/<?= htmlspecialchars($fotoMaisBaixada['foto_url']) ?>" alt="<?= htmlspecialchars($fotoMaisBaixada['descricao']) ?>" class="foto-preview">
-                    <p><?= htmlspecialchars($fotoMaisBaixada['descricao']) ?></p>
-                    <div class="stats">
-                        <div class="stat">
-                            <div class="number"><?= $fotoMaisBaixada['downloads'] ?></div>
-                            <div class="label">Downloads</div>
-                        </div>
-                        <div class="stat">
-                            <div class="number"><?= $fotoMaisBaixada['likes'] ?? '0' ?></div>
-                            <div class="label">Likes</div>
-                        </div>
-                        <div class="stat">
-                            <div class="number"><?= round($fotoMaisBaixada['downloads'] / ($fotoMaisBaixada['visualizacoes'] ?? 1) * 100, 1) ?>%</div>
-                            <div class="label">Taxa de conversão</div>
-                        </div>
-                    </div>
-                    <p class="autor">Por: <?= htmlspecialchars($fotoMaisBaixada['autor_nome']) ?></p>
-                <?php else: ?>
-                    <p>Nenhuma foto encontrada</p>
-                <?php endif; ?>
-            </div>-->
         </div>
 
         <!-- Top Fotógrafos -->
@@ -329,32 +355,49 @@ $topFotografos = $uploadController->buscarTopFotografos(3);
                     <?php foreach ($topFotografos as $index => $fotografo): ?>
                         <div class="top-fotografo">
                             <div class="posicao"><?= $index + 1 ?></div>
-                            <div class="foto" style="background-image: url('../uploads/perfil/<?= htmlspecialchars($fotografo['foto_de_perfil_url'] ?? 'default.jpg') ?>');"></div>
-                            <div class="nome"><?= htmlspecialchars($fotografo['nome_completo']) ?></div>
-                            <div class="uploads"><?= $fotografo['total_uploads'] ?> posts</div>
+                            <div class="foto"
+                                style="background-image: url('../uploads/profile_pics/<?= htmlspecialchars($fotografo['foto_de_perfil_url'] ?? 'default.jpg') ?>');"
+                                onclick="window.location.href='visaoPerfil.php?id=<?= $fotografo['id_usuario'] ?>'"></div>
+                            <b>
+                                <div style="color: #3498db; ;" class="nome" onclick="window.location.href='visaoPerfil.php?id=<?= $fotografo['id_usuario'] ?>'"><?= htmlspecialchars($fotografo['nome_completo']) ?>
+                            </b>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Nenhum fotógrafo encontrado</p>
-                <?php endif; ?>
+                        <div class="uploads"><?= $fotografo['total_uploads'] ?> posts</div>
             </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Nenhum fotógrafo encontrado</p>
+    <?php endif; ?>
         </div>
+    </div>
     </div>
 
     <script>
-        // Menu dropdown
-        document.getElementById('opcoes')?.addEventListener('change', function() {
-            const selectedValue = this.value;
-            if (selectedValue !== "") {
-                window.location.href = selectedValue;
+        // Verificação da foto de perfil
+        document.addEventListener('DOMContentLoaded', function() {
+            const perfilDiv = document.querySelector('.foto-perfil');
+            if (perfilDiv) {
+                const img = new Image();
+                img.onerror = function() {
+                    perfilDiv.style.backgroundImage = "url('../uploads/profile_pics/default.jpg')";
+                };
+                img.src = perfilDiv.style.backgroundImage.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
             }
-        });
 
-        // Animações simples
-        const cards = document.querySelectorAll('.hall-card');
-        cards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.classList.add('animate__animated', 'animate__fadeInUp');
+            // Menu dropdown
+            document.getElementById('opcoes')?.addEventListener('change', function() {
+                const selectedValue = this.value;
+                if (selectedValue !== "") {
+                    window.location.href = selectedValue;
+                }
+            });
+
+            // Animações simples
+            const cards = document.querySelectorAll('.hall-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('animate__animated', 'animate__fadeInUp');
+            });
         });
     </script>
 </body>

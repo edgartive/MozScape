@@ -459,7 +459,86 @@ if (isset($_SESSION['id_usuario'])) {
     <footer>
         <p>&copy; 2024 - Mozscape</p>
     </footer>
+    <style>
+        /* Efeito de feixe azul animado nas bordas externas do card - mais fino e rápido */
+        .upload-card {
+            position: relative;
+            overflow: visible;
+            border-radius: 8px;
+        }
 
+        .upload-card .feixe-azul {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            z-index: 1;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+
+        .upload-card:hover .feixe-azul {
+            opacity: 1;
+        }
+
+        .feixe-azul svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .feixe-azul .snake {
+            stroke: url(#gradiente-cobra);
+            stroke-width: 1px;
+            /* mais fino */
+            fill: none;
+            stroke-dasharray: 30 60;
+            stroke-dashoffset: 0;
+            animation: snake-move 0.4s linear infinite;
+            /* mais rápido */
+        }
+
+        @keyframes snake-move {
+            0% {
+                stroke-dashoffset: 0;
+            }
+
+            100% {
+                stroke-dashoffset: -90;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adiciona o feixe azul animado a cada upload-card - VERSÃO CORRIGIDA
+            document.querySelectorAll('.upload-card').forEach(function(card) {
+                // Remove qualquer feixe existente primeiro
+                const feixesExistentes = card.querySelectorAll('.feixe-azul');
+                feixesExistentes.forEach(feixe => feixe.remove());
+
+                const feixe = document.createElement('div');
+                feixe.className = 'feixe-azul';
+                feixe.innerHTML = `
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="gradiente-cobra" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color: transparent; stop-opacity: 0"/>
+                            <stop offset="25%" style="stop-color: #3498db; stop-opacity: 0.2"/>
+                            <stop offset="50%" style="stop-color: #3498db; stop-opacity: 1"/>
+                            <stop offset="75%" style="stop-color: #3498db; stop-opacity: 0.2"/>
+                            <stop offset="100%" style="stop-color: transparent; stop-opacity: 0"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="1" y="1" width="98" height="98" rx="8" ry="8" class="snake"/>
+                </svg>
+            `;
+                card.prepend(feixe);
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const pesquisaInput = document.getElementById('pesquisa');
